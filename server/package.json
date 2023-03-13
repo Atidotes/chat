@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ./main"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
+    "koa": "^2.14.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^12.0.0",
+    "koa2-cors": "^2.0.6",
+    "mongoose": "^7.0.1",
+    "socket.io": "^4.6.1",
+    "svg-captcha": "^1.4.0",
+    "ws": "^8.13.0"
+  }
+}
