@@ -9,6 +9,11 @@
       </div>
     </div>
   </div>
+
+  <!-- 音效 -->
+  <audio ref="audioRef" hidden>
+    <source src="@/assets/01.mp3" type="audio/mpeg">
+  </audio>
 </template>
 
 <script lang="ts" setup>
@@ -22,7 +27,7 @@ import { onBeforeUnmount, ref } from "vue";
 const store = useChatStore();
 const { getUserList, changeMessage } = store;
 
-const id = ref(0);
+const audioRef = ref()
 
 /**
  * 创建连接
@@ -52,6 +57,7 @@ socket.on("connect", () => {
       data: res.data,
       type: "left",
     });
+    audioRef.value.play()
   });
 });
 

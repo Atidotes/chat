@@ -20,8 +20,11 @@ const start = (app) => {
         socket.user = payload
         // 群发在线用户
         sendAll(io)
+
+        /**
+         * 私聊
+         */
         socket.on('private-Chat', (msg) => {
-          console.log(msg)
           Array.from(io.sockets.sockets).forEach(item => {
             if (item[1].user.accountNumber === msg.to.accountNumber) {
               item[1].emit('private-Chat', { user: item[1].user, data: msg.data })
@@ -29,6 +32,9 @@ const start = (app) => {
           })
         })
 
+        /**
+         * 断开连接
+         */
         socket.on('disconnect', () => {
           sendAll(io)
         })
@@ -48,7 +54,7 @@ const sendAll = (io) => {
     message: '连接成功',
     success: true,
     code: 200,
-    data: Array.from(io.sockets.sockets).map(item => item[1].user)
+    data: Array.from(io.sockets.sockets).map(item => item[1].user).filter(item => item)
   })
 }
 
