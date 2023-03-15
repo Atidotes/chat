@@ -5,7 +5,7 @@
         <friendsList></friendsList>
       </div>
       <div class="chat">
-        <chat></chat>
+        <chat @chat="chats"></chat>
       </div>
     </div>
   </div>
@@ -14,20 +14,20 @@
 <script lang="ts" setup>
 import chat from "@/components/chat/chat.vue";
 import friendsList from "@/components/friendsList/friendsList.vue";
-
 import { io } from "socket.io-client";
 import { useChatStore } from "@/store/chatStore";
-import { onBeforeUnmount } from "vue";
+import { onBeforeUnmount, ref } from "vue";
 
 // 使用状态库
 const store = useChatStore();
-const { getUserList } = store;
+const { getUserList, changeMessage } = store;
+
+const id = ref(0);
 
 /**
  * 创建连接
  */
 const socket = io("http://localhost:3030", {
-  // reconnection: false,
   withCredentials: true,
   extraHeaders: {
     token: localStorage.getItem("token") as string,
@@ -35,31 +35,39 @@ const socket = io("http://localhost:3030", {
 });
 
 socket.on("connect", () => {
-  console.log("连接成功");
-  socket.on("error", (res) => {
-    console.log(res);
+  socket.on("tabulation", (result: any) => {
+    // 去除自己用户信息
+    const userListInfo = result.data;
+    const userInfo = store.userInfo;
+    const arr = userListInfo.filter((item: IUserInfo) => {
+      if (item !== null) {
+        return item?.accountNumber !== userInfo?.accountNumber;
+      }
+    });
+    getUserList([...arr]);
+  });
+
+  socket.on("private-Chat", (res) => {
+    changeMessage({
+      data: res.data,
+      type: "left",
+    });
   });
 });
 
-socket.on("tabulation", (result: any) => {
-  // 去除自己用户信息
-  const userListInfo = result.data;
-  const userInfo = store.userInfo;
-  const arr = userListInfo.filter((item: IUserInfo) => {
-    if (item !== null) {
-      return item?.accountNumber !== userInfo?.accountNumber;
-    }
-  });
-  getUserList([...arr]);
-  console.log('获取好友列表',[...arr])
-});
+/**
+ * 发送消息
+ */
+const chats = (target) => {
+  socket.emit("private-Chat", target);
+};
 
 /**
  * 页面离开断开连接
  */
-onBeforeUnmount(()=>{
-  socket.disconnect()
-})
+onBeforeUnmount(() => {
+  socket.disconnect();
+});
 </script>
 
 <style scoped lang="less">

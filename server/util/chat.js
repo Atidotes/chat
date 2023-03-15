@@ -20,17 +20,16 @@ const start = (app) => {
         socket.user = payload
         // 群发在线用户
         sendAll(io)
-
-        // socket.on('tabulation', () => {
-        //   const arr = Array.from(io.sockets.sockets).map(item => {
-        //      return item[1].user
-        //   })
-        // })
-        socket.on('private-Chat', () => {
-
+        socket.on('private-Chat', (msg) => {
+          console.log(msg)
+          Array.from(io.sockets.sockets).forEach(item => {
+            if (item[1].user.accountNumber === msg.to.accountNumber) {
+              item[1].emit('private-Chat', { user: item[1].user, data: msg.data })
+            }
+          })
         })
 
-        socket.on('disconnect',()=>{
+        socket.on('disconnect', () => {
           sendAll(io)
         })
       } else {

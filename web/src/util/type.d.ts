@@ -7,3 +7,8 @@ declare interface IChangeChat {
   flag:boolean,
   chatUser: object
 }
+
+declare interface IChangeInfo {
+  data:string,
+  type:string
+}

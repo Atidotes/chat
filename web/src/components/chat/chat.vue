@@ -7,22 +7,14 @@
 
     <!-- 聊天框内容 -->
     <div class="chat-content">
-      <el-scrollbar>
-        <ul class="content">
-          <li v-for="item in left" :key="item.id" class="left">
+      <el-scrollbar ref="scrollbarRef" always>
+        <ul ref="innerRef" class="content">
+          <li v-for="(item,index) in chatMassage" :key="index" :class="item.type === 'left' ? 'left' : 'right'">
             <div class="head-sculpture"
               :style="{backgroundImage:`url('https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png')`}">
             </div>
-            <div class="text">
+            <div :class="item.type === 'left'? 'text' : 'text-right'">
               {{item.data}}
-            </div>
-          </li>
-          <li class="right">
-            <div class="head-sculpture"
-              :style="{backgroundImage:`url('https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png')`}">
-            </div>
-            <div class="text-right">
-              不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道不知道
             </div>
           </li>
         </ul>
@@ -44,17 +36,55 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, defineEmits, watch, nextTick } from "vue";
 import { useChatStore } from "@/store/chatStore";
 
 const store = useChatStore();
-const msg = ref("");
-const num = ref(1);
-const left = reactive([]);
+const { changeMessage } = store;
+const emit = defineEmits(["chat"]);
 
+/**
+ * 定义页面数据
+ */
+const msg = ref("");
+const scrollbarRef = ref();
+const innerRef = ref();
+
+/**
+ * 获取状态库数据
+ */
 const flag = computed(() => store.flag);
 const chatUser = computed(() => store.chatUser);
 const userName = computed(() => store.userInfo.userName);
+const chatMassage = computed(() => store.chatMassage);
+
+/**
+ * 检测数据变化
+ */
+watch(chatMassage.value,()=>{
+   scrollbarBottom()
+})
+
+/**
+ * 检测滚动条始终保持在底部
+ */
+const scrollbarBottom = () => {
+  nextTick(()=>{
+      scrollbarRef.value.setScrollTop(innerRef.value.clientHeight);
+  })
+};
+
+/**
+ * 发送消息
+ */
+const handleSend = () => {
+  emit("chat", { data: msg.value, to: chatUser.value });
+  changeMessage({
+    data: msg.value,
+    type: "right",
+  });
+  msg.value = null
+};
 </script>
 
 <style scoped lang="less">
