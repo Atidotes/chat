@@ -48,8 +48,7 @@ app.use(chatRouter.routes(), chatRouter.allowedMethods())
 
 /** 监听端口号3000 */
 app.listen(config.APP_PORT, () => {
-  // console.clear()
-  // console.log()
+  console.log()
   console.log((`server start at ${config.APP_BASE}:${config.APP_PORT}`))
   console.info(`欢迎使用本次服务`)
 })

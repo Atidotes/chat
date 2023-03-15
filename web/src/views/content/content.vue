@@ -32,7 +32,7 @@ const audioRef = ref();
 /**
  * 创建连接
  */
-const socket = io("http://localhost:3030", {
+const socket = io(import.meta.env.APP_CHAT_BASE, {
   withCredentials: true,
   extraHeaders: {
     token: localStorage.getItem("token") as string,

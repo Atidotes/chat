@@ -1,12 +1,13 @@
 const JWT = require('./JWT')
 const { Server } = require('socket.io');
 const { createServer } = require("http");
+const config = require('../env.config')
 
 const start = (app) => {
   const httpServer = createServer(app.callback());
   const io = new Server(httpServer, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: config.APP_CHAT_BASE,
       allowedHeaders: ["token"],
       credentials: true
     }
@@ -45,7 +46,7 @@ const start = (app) => {
       socket.emit('error', { code: 401, message: 'token无效' })
     }
   })
-  httpServer.listen(3030);
+  httpServer.listen(config.APP_CHAT_PORT);
 }
 
 /** 群发函数 */

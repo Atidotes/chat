@@ -15,7 +15,6 @@
     "koa2-cors": "^2.0.6",
     "mongoose": "^7.0.1",
     "socket.io": "^4.6.1",
-    "svg-captcha": "^1.4.0",
-    "ws": "^8.13.0"
+    "svg-captcha": "^1.4.0"
   }
 }

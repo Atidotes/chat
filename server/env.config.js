@@ -7,7 +7,10 @@ const os = require('os')
  */
 switch (os.type()) {
   case 'Windows_NT':
-    dotenv.config({ path: path.join(__dirname, '.env') })
+    dotenv.config({ path: path.join(__dirname, '.env.development') })
+    break;
+  default:
+    dotenv.config({ path: path.join(__dirname, '.env.production') })
     break;
 }
 
