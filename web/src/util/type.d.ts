@@ -12,3 +12,12 @@ declare interface IChangeInfo {
   data:string,
   type:string
 }
+
+declare interface IResult {
+  code:any
+}
+
+declare interface IChat {
+  data:string,
+  to:Object
+}

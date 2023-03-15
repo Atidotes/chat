@@ -54,7 +54,7 @@ const innerRef = ref();
  * 获取状态库数据
  */
 const flag = computed(() => store.flag);
-const chatUser = computed(() => store.chatUser);
+const chatUser:any = computed(() => store.chatUser);
 const userName = computed(() => store.userInfo.userName);
 const chatMassage = computed(() => store.chatMassage);
 
@@ -83,7 +83,7 @@ const handleSend = () => {
     data: msg.value,
     type: "right",
   });
-  msg.value = null
+  msg.value = ''
 };
 </script>
 

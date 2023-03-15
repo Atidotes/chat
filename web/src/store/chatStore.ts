@@ -8,17 +8,19 @@ export const useChatStore = defineStore('chat', {
       accountNumber: null,
       userName: '',
     } as IUserInfo,
-    chatUser: {},  // 选择聊天的用户
+    chatUser: {
+      userName:'',
+    } as {},  // 选择聊天的用户
     chatMassage:[] as Array<any>, // 聊天记录
   }),
 
   actions: {
     /** 获取用户列表信息 */
-    getUserList(value: []) {
+    getUserList(value:any) {
       this.userList = value
     },
     /** 获取用户信息 */
-    getUserInfo(value: IUserInfo) {
+    getUserInfo(value: any) {
       this.userInfo = value
     },
     /** 获取要聊天的用户信息 */

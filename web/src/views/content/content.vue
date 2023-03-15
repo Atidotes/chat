@@ -27,7 +27,7 @@ import { onBeforeUnmount, ref } from "vue";
 const store = useChatStore();
 const { getUserList, changeMessage } = store;
 
-const audioRef = ref()
+const audioRef = ref();
 
 /**
  * 创建连接
@@ -57,14 +57,14 @@ socket.on("connect", () => {
       data: res.data,
       type: "left",
     });
-    audioRef.value.play()
+    audioRef.value.play();
   });
 });
 
 /**
  * 发送消息
  */
-const chats = (target) => {
+const chats = (target: IChat) => {
   socket.emit("private-Chat", target);
 };
 

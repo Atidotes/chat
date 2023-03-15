@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, Router } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { login } from "@/api/login";
 import { useChatStore } from '@/store/chatStore'
@@ -46,9 +46,9 @@ const handleLogin = (formRef: FormInstance | undefined) => {
   if (!formRef) return;
   formRef.validate(async (valid) => {
     if (valid) {
-      let result = await login(loginData);
+      let result:any = await login(loginData);
 
-      if (result.code === 200 && result.success) {
+      if (result.code === 200) {
         getUserInfo(result.data)
         router.push('/')
       }

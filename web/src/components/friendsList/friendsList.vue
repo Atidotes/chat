@@ -20,12 +20,12 @@ import { computed } from "vue";
 const store = useChatStore();
 const { changeChat } = store;
 
-const userList = computed(() => store.userList);
+const userList:any = computed(() => store.userList);
 
 /**
  * 点击进入聊天界面
  */
-const handleClick = (target) => {
+const handleClick = (target:any) => {
   changeChat({ flag: true, chatUser: target });
 };
 </script>
