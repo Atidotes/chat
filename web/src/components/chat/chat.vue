@@ -1,8 +1,8 @@
 <template>
-  <div class="chat-box">
+  <div class="chat-box" v-if="flag">
     <!-- 聊天框顶部 -->
     <div class="header">
-      <h1>聊天界面</h1>
+      <h1>{{chatUser.userName}}聊天界面</h1>
     </div>
 
     <!-- 聊天框内容 -->
@@ -35,50 +35,26 @@
         @keyup.enter="handleSend"></textarea>
     </div>
   </div>
+
+  <div class="chat-box" v-else>
+    <h2 class="title">
+      欢迎{{userName}}回来！
+    </h2>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-// import { io, Socket } from "socket.io-client";
+import { computed, reactive, ref } from "vue";
+import { useChatStore } from "@/store/chatStore";
 
-
+const store = useChatStore();
 const msg = ref("");
 const num = ref(1);
 const left = reactive([]);
-// const userList = ref([])
 
-/**
- * 创建连接
- */
-// const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-//   "http://localhost:3030",
-//   {
-//     reconnection: false,
-//     withCredentials: true,
-//     extraHeaders: {
-//       token: localStorage.getItem("token"),
-//     },
-//   }
-// );
-
-// socket.on("connect", function () {
-//   console.log("连接成功");
-// });
-
-// socket.on('tabulation',(result)=>{
-//   userList.value = result.data
-// })
-
-
-
-
-// socket.on("error", function (data) {
-//   console.log(data || "error");
-// });
-
-// socket.on("connect_failed", function (data) {
-//   console.log(data || "connect_failed");
-// });
+const flag = computed(() => store.flag);
+const chatUser = computed(() => store.chatUser);
+const userName = computed(() => store.userInfo.userName);
 </script>
 
 <style scoped lang="less">
@@ -90,6 +66,13 @@ const left = reactive([]);
   border: 1px solid #00000040;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  position: relative;
+  .title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   .header {
     width: 100%;
     height: 60px;

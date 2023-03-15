@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia'
 
-export  const useChatStore = defineStore('chat', {
+export const useChatStore = defineStore('chat', {
   state: () => ({
+    flag: false,
     userList: [],
     userInfo: {
       accountNumber: null,
       userName: '',
-    } as IUserInfo
+    } as IUserInfo,
+    chatUser: {
+    }
   }),
 
   actions: {
@@ -15,12 +18,16 @@ export  const useChatStore = defineStore('chat', {
     },
     getUserInfo(value: IUserInfo) {
       this.userInfo = value
+    },
+    changeChat(value: IChangeChat) {
+      this.flag = value.flag
+      this.chatUser = value.chatUser
     }
   },
 
   persist: {
     key: 'chat',
-    paths: ['userInfo','userList'],
+    paths: ['userInfo', 'userList'],
     storage: localStorage,
   },
 
