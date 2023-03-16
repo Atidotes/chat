@@ -41,8 +41,8 @@ const handleClick = (target:any) => {
   border-top: 1px solid #00000040;
   border-left: 1px solid #00000040;
   border-bottom: 1px solid #00000040;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  // border-top-left-radius: 10px;
+  // border-bottom-left-radius: 10px;
   .head-sculpture {
     width: 50px;
     height: 50px;

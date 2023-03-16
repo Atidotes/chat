@@ -1,6 +1,9 @@
 <template>
   <div class="box">
     <div class="content">
+      <div class="sidebar">
+        <sidebar></sidebar>
+      </div>
       <div class="list">
         <friendsList></friendsList>
       </div>
@@ -19,6 +22,7 @@
 <script lang="ts" setup>
 import chat from "@/components/chat/chat.vue";
 import friendsList from "@/components/friendsList/friendsList.vue";
+import sidebar from '@/components/sidebar/sidebar.vue'
 import { io } from "socket.io-client";
 import { useChatStore } from "@/store/chatStore";
 import { onBeforeUnmount, ref } from "vue";
@@ -86,7 +90,7 @@ onBeforeUnmount(() => {
   background-color: #393939;
   box-sizing: border-box;
   .content {
-    width: 800px;
+    width: 850px;
     height: 500px;
     background-color: #fdf5e6;
     border-radius: 10px;
