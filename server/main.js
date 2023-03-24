@@ -14,7 +14,9 @@ chat(app)
 
 /** token验证 */
 app.use(async (ctx, next) => {
-  if (ctx.url.includes('/web/api/login')) return await next()
+  const arr = ['/web/api/login', '/web/api/captcha','/web/api/logon']
+  if (arr.includes(ctx.url)) return await next()
+
   // 获取token值
   const token = ctx.headers['authorization']
 

@@ -26,13 +26,14 @@
 
 <script setup lang="ts">
 import { Menu, SwitchButton } from "@element-plus/icons-vue";
+import { ElMessageBox } from 'element-plus'
 import { onBeforeUnmount, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const visible = ref(false);
-const trim: number = ref();
+const trim = ref(0);
 
 /**
  * 退出登录

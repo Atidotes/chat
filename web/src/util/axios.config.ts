@@ -20,7 +20,7 @@ requests.interceptors.request.use((config) => {
 requests.interceptors.response.use((response) => {
 
   const { authorization } = response.headers
-  localStorage.setItem('token', authorization)
+  authorization && localStorage.setItem('token', authorization)
 
   return response.data;
 }, (error) => {

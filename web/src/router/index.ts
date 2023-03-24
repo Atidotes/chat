@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import login from '@/views/login/login.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,20 +24,20 @@ const router = createRouter({
  */
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('token')
-
+  
   if (to.name === 'login') {
-    if (token) {
-      next({ path: from.path })
-    } else {
+    if (!token) {
       next()
+    } else {
+      next({ path: from.path })
     }
   } else {
-    if (token) {
-      next()
-    } else {
+    if (!token) {
       next({
-        path: 'login'
+        path:'login'
       })
+    } else {
+      next()
     }
   }
 })

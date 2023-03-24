@@ -1,48 +1,104 @@
 const Router = require('koa-router')
 const chatServices = require('../../services/web/chatServices')
-const chatControllers = new Router()
 const JWT = require('../../util/JWT')
+const svgCaptcha = require('svg-captcha');
 
+const chatControllers = new Router()
+let captchaText = '0'
+
+/** 登录 */
 chatControllers.post('/login', async (ctx, next) => {
   const { password, accountNumber } = ctx.request.body
-
   let result = await chatServices.login({ password, accountNumber })
 
-  // 设置token
-  const token = JWT.generate({
-    accountNumber: result.accountNumber,
-    userName: result.userName
-  }, '1d')
-  ctx.set('Authorization', token)
+  if (result) {
+    // 设置token
+    const token = JWT.generate({
+      accountNumber: result.accountNumber,
+      userName: result.userName
+    }, '1d')
+    ctx.set('Authorization', token)
 
-  sendData(ctx, {
-    accountNumber: result.accountNumber,
-    userName: result.userName
-  })
-})
-
-chatControllers.get('/a', (ctx, next) => {
-  sendData(ctx, null)
-})
-
-const sendData = (target, data) => {
-  if (data) {
-    target.status = 200
-    target.body = {
+    ctx.body = {
       code: 200,
-      message: '获取数据成功',
       success: true,
-      data
+      message: '登录成功',
+      data: {
+        accountNumber: result.accountNumber,
+        userName: result.userName
+      }
     }
   } else {
-    target.status = 401
-    target.body = {
-      code: 401,
-      message: '获取数据失败',
+    ctx.body = {
+      code: 403,
       success: false,
-      data
+      message: '账号或密码不正确'
     }
   }
-}
+})
+
+/** 获取验证码 */
+chatControllers.get('/captcha', (ctx, next) => {
+  const captcha = svgCaptcha.create({
+    size: 4, //验证码长度
+    noise: 3, //干扰线条数目
+    width: 120, //宽度
+    height: 32, //高度
+    ignoreChars: '0oO1ilI', // 验证码字符中排除 0o1i
+    inverse: false, // 翻转颜色
+    fontSize: 45, // 字体大小
+    color: true, // 验证码字符颜色（需设置背景色）
+    background: '#ccc', // 背景
+  });
+  captchaText = captcha.text
+
+  if (!captcha.text) {
+    ctx.status = 404
+    ctx.body = {
+      code: 404,
+      success: false,
+      message: '获取数据失败'
+    }
+  } else {
+    ctx.body = {
+      code: 200,
+      success: true,
+      message: '获取数据成功',
+      data: captcha.data
+    }
+  }
+})
+
+/** 注册 */
+chatControllers.post('/logon', async (ctx, next) => {
+  const { password, accountNumber, userName, captcha } = ctx.request.body
+
+  if (captcha.toLowerCase() === captchaText.toLowerCase()) {
+    let res = await chatServices.findNumber({ accountNumber })
+
+    if (res) {
+      ctx.body = {
+        code: 403,
+        message: '此账号已注册',
+        success: false,
+      }
+    } else {
+      await chatServices.logon({ password, accountNumber, userName })
+      ctx.body = {
+        code: 200,
+        message: '注册成功',
+        success: true,
+      }
+    }
+
+  } else {
+    ctx.body = {
+      code: 403,
+      message: '验证码错误',
+      success: false,
+      data: {}
+    }
+  }
+})
 
 module.exports = chatControllers
