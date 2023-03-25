@@ -64,7 +64,7 @@ npm run build:pro // 部署到服务器上需要以生产模式编译
 可以借助`WinSCP`工具进行上传到服务器中，把文件整体上传。上传到服务器后需要配置代理，如下：
 
 ``` Nginx
-listen 8080; # 根据自己的需要开启监听的端口号
+listen 80; # 根据自己的需要开启监听的端口号
 server_name 127.0.0.1; # 项目地址 这里就先用本地地址代替
 index index.php index.html index.htm default.php default.htm default.html; # 项目首先匹配的首页文件
 root /www/wwwroot/admin; # 项目运行目录
@@ -84,6 +84,29 @@ location /admin {
 
 **四、项目问题**
 
-**1. socket.io部署问题**
+**(1) socket.io部署问题**
+1. 问题
 使用`socket.io`完成及时通讯，在本地环境运行是没有问题的。但在服务器上会出现另一个问题，那就是在服务器上部署后端代码只能开启一个端口号，而`socket.io`会另外占用一个端口号，并且不能与`koa`的端口号合并。这样会出现一个问题就是前端页面可以正常的请求接口，一旦涉及到`socket.io`的有关请求，便会请求失败，导致项目在服务器上无法运行。在宝塔面板和服务器运营商的安全组也放开了。就是无法正常使用，在服务器上启动项目是正常的，使用`PM2`启动就会造成项目无法实现及时通讯。望给位大佬能指点迷津，万分感谢。
+2. 解决方案
+不知道这样解决问题是否正确，但通过验证，他确实可以解决我目前的这个问题，就是修改配置文件即可解决。配置如下：
+``` Nginx
+listen 80; # 根据自己的需要开启监听的端口号
+server_name 127.0.0.1; # 项目地址 这里就先用本地地址代替
+index index.php index.html index.htm default.php default.htm default.html; # 项目首先匹配的首页文件
+root /www/wwwroot/admin; # 项目运行目录
 
+# 请求中带上/admin的都会被转发到我们的后端地址
+location /admin {
+  add_header 'Access-Control-Allow-Origin' '*';
+  # 这里是你要代理的地址
+  proxy_pass http://127.0.0.1:3001; # 这里就先用本地地址代替
+}
+
+# 配置添加以下，即可解决上述问题
+# 请求中带上/socket.io的都会被转发到我们的后端地址
+location /socket.io {
+  add_header 'Access-Control-Allow-Origin' '*';
+  # 这里是你要代理的地址
+  proxy_pass http://127.0.0.1:3030; # 这里就先用本地地址代替
+}
+```
