@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, defineEmits, watch, nextTick } from "vue";
+import { computed, reactive, ref, watch, nextTick } from "vue";
 import { useChatStore } from "@/store/chatStore";
 
 const store = useChatStore();
