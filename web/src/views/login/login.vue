@@ -73,7 +73,6 @@
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
-import { ElMessage } from "element-plus";
 import { toLogin, getCaptcha, toLogon } from "@/api/login";
 import { useChatStore } from "@/store/chatStore";
 
