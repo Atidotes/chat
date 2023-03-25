@@ -75,6 +75,7 @@ import { useRouter } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { toLogin, getCaptcha, toLogon } from "@/api/login";
 import { useChatStore } from "@/store/chatStore";
+import { mobilePhone, pass } from "@/util/regular";
 
 /** 路由和状态库 */
 const router = useRouter();
@@ -99,17 +100,65 @@ const logonData: IUserInfo = reactive({
 });
 
 /** 验证规则 */
+const numberValidator = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback("请填写账号");
+  } else {
+    if (!mobilePhone.test(value)) {
+      return callback(new Error("请正确输入账号！"));
+    } else {
+      return callback();
+    }
+  }
+};
+
+const passwordValidator = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback("请填写密码");
+  } else {
+    if (!pass.test(value)) {
+      return callback(
+        new Error("密码必须包含字母、数字、特殊符号的8位-16位的组合")
+      );
+    } else {
+      return callback();
+    }
+  }
+};
+
+const passwordValidator2 = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback("请填写密码");
+  } else if (logonData.password !== value) {
+    return callback("两次密码不正确");
+  } else {
+    if (!pass.test(value)) {
+      return callback(
+        new Error("密码必须包含字母、数字、特殊符号的8位-16位的组合")
+      );
+    } else {
+      return callback();
+    }
+  }
+};
+
 const loginRules = reactive<FormRules>({
-  accountNumber: [{ required: true, message: "请填写账号", trigger: "blur" }],
-  password: [{ required: true, message: "请填写密码", trigger: "blur" }],
+  accountNumber: [{ validator: numberValidator, trigger: "blur" }],
+  password: [{ validator: passwordValidator, trigger: "blur" }],
 });
 
 const logonRules = reactive<FormRules>({
-  accountNumber: [{ required: true, message: "请填写账号", trigger: "blur" }],
-  userName: [{ required: true, message: "请填写昵称", trigger: "blur" }],
-  password: [{ required: true, message: "请填写密码", trigger: "blur" }],
-  password2: [{ required: true, message: "请填写密码", trigger: "blur" }],
-  captcha: [{ required: true, message: "请填写密码", trigger: "blur" }],
+  accountNumber: [{ validator: numberValidator, trigger: "blur" }],
+  password: [{ validator: passwordValidator, trigger: "blur" }],
+  password2: [{ validator: passwordValidator2, trigger: "blur" }],
+  userName: [
+    { required: true, message: "请填写昵称", trigger: "blur" },
+    { max: 8, min: 3, message: "昵称长度为3~8位字符", trigger: "blur" },
+  ],
+  captcha: [
+    { required: true, message: "请填写密码", trigger: "blur" },
+    { max: 4, min: 4, message: "验证码长度为4位字符", trigger: "change" },
+  ],
 });
 
 /**
@@ -193,7 +242,7 @@ const handleLogon = (formRef: FormInstance | undefined) => {
   justify-content: center;
   align-items: center;
   .login {
-    width: 400px;
+    width: 420px;
     height: 260px;
     background-color: #778899;
     border-radius: 10px;
@@ -230,7 +279,7 @@ const handleLogon = (formRef: FormInstance | undefined) => {
   }
 
   .logon {
-    width: 400px;
+    width: 420px;
     height: 410px;
     background-color: #778899;
     border-radius: 10px;
