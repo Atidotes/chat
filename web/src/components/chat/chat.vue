@@ -53,7 +53,6 @@ const innerRef = ref();
 /**
  * 获取状态库数据
  */
-
 const flag = computed<boolean>(() => store.flag);
 const currentChatUserInfo = computed<IUserInfo>(() => store.currentChatUserInfo);
 const userName = computed<string | undefined>(() => store.getUserInfo);

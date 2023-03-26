@@ -1,7 +1,8 @@
 <template>
   <div class="friends-list">
     <el-scrollbar>
-      <el-card @click="handleClick(item)" v-for="item in userList" :key="item.userName" :body-style="{ padding: '0px' }">
+      <el-card @click="handleClick(item)" v-for="item in userList" :key="item.userName"
+        :body-style="{ padding: '0px' }">
         <div class="head-sculpture"
           :style="{backgroundImage:`url('https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png')`}">
         </div>
