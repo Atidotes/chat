@@ -6,8 +6,8 @@
 
     <el-popover placement="right" :width="200" :visible="visible" effect="dark">
       <template #reference>
-        <el-icon class="menu" size="20" @click="visible=!visible">
-          <Menu />
+        <el-icon id="iconChat" class="menu" size="20" @click.preventDefault="visible=!visible">
+          <Menu id="iconChat" />
         </el-icon>
       </template>
       <template #default>
@@ -26,13 +26,27 @@
 
 <script setup lang="ts">
 import { Menu, SwitchButton } from "@element-plus/icons-vue";
-import { onBeforeUnmount, ref } from "vue";
+import { onBeforeUnmount, onMounted, onUnmounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const visible = ref(false);
 const trim = ref(0);
+
+onMounted(() => {
+  window.addEventListener("click", handleClick, false);
+});
+
+/**
+ * 点击事件
+ */
+const handleClick = (e) => {
+  if (!visible.value) return;
+  if (e.target.parentNode.id !== "iconChat") {
+    return (visible.value = false);
+  }
+};
 
 /**
  * 退出登录
@@ -45,6 +59,7 @@ const handleLoginOut = () => {
   }).then(() => {
     trim.value = setTimeout(() => {
       localStorage.removeItem("token");
+      sessionStorage.removeItem("chat");
       router.push("/login");
     }, 350);
   });
@@ -52,6 +67,7 @@ const handleLoginOut = () => {
 
 onBeforeUnmount(() => {
   clearTimeout(trim.value);
+  window.removeEventListener("click", handleClick, false);
 });
 </script>
 
