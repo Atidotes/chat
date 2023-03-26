@@ -8,17 +8,17 @@ declare interface IResult {
 
 /** 用户信息 */
 declare interface IUserInfo {
-  accountNumber: number | null,
+  accountNumber: number | null | string,
   userName?: string,
   password?: string,
   password2?: string,
   captcha?: string,
 }
 
-/** 获取要聊天的用户信息 */
-declare interface IChangeChat {
+/** 当前聊天用户信息 */
+declare interface ISelectChat {
   flag: boolean,
-  chatUser: object
+  currentChatUserInfo: IUserInfo
 }
 
 /** 聊天记录 */

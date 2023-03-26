@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { toLogin, getCaptcha, toLogon } from "@/api/login";
@@ -80,7 +80,10 @@ import { mobilePhone, pass } from "@/util/regular";
 /** 路由和状态库 */
 const router = useRouter();
 const store = useChatStore();
-const { getUserInfo } = store;
+const { setUpUserInfo } = store;
+
+/** 组件实例 */
+const { proxy } = getCurrentInstance() as any;
 
 /** 用户数据 */
 const flag = ref(true);
@@ -186,9 +189,15 @@ const handleLogin = (formRef: FormInstance | undefined) => {
   if (!formRef) return;
   formRef.validate(async (valid) => {
     if (valid) {
-      let result = await toLogin(loginData);
+      // 加密数据
+      const params: IUserInfo = {
+        accountNumber: proxy.$AES_Encrypt(loginData.accountNumber),
+        password: proxy.$AES_Encrypt(loginData.password),
+      };
+
+      let result = await toLogin(params);
       if (result.code === 200 && result.success) {
-        getUserInfo(result.data);
+        setUpUserInfo(result.data);
         router.push("/");
         formRef.resetFields();
       } else {
@@ -208,10 +217,16 @@ const handleLogon = (formRef: FormInstance | undefined) => {
   if (!formRef) return;
   formRef.validate(async (valid) => {
     if (valid) {
-      let result = await toLogon(logonData);
-      if (result.code === 200 && result.success) {
-        console.log("成功");
+      // 加密数据
+      const params: IUserInfo = {
+        accountNumber: proxy.$AES_Encrypt(logonData.accountNumber),
+        password: proxy.$AES_Encrypt(logonData.password),
+        userName: proxy.$AES_Encrypt(logonData.userName),
+        captcha: proxy.$AES_Encrypt(logonData.captcha),
+      };
 
+      let result = await toLogon(params);
+      if (result.code === 200 && result.success) {
         flag.value = true;
         ElMessage({
           type: "success",
@@ -220,8 +235,6 @@ const handleLogon = (formRef: FormInstance | undefined) => {
         formRef.resetFields();
         handleCaptcha();
       } else {
-        console.log("失败");
-
         handleCaptcha();
         ElMessage({
           type: "error",

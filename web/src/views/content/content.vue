@@ -29,7 +29,7 @@ import { onBeforeUnmount, ref } from "vue";
 
 // 使用状态库
 const store = useChatStore();
-const { getUserList, changeMessage } = store;
+const { setUpUserList, changeMessage } = store;
 
 const audioRef = ref();
 
@@ -50,10 +50,10 @@ socket.on("connect", () => {
     const userInfo = store.userInfo;
     const arr = userListInfo.filter((item: IUserInfo) => {
       if (item !== null) {
-        return item?.accountNumber !== userInfo?.accountNumber;
+        return item.accountNumber !== userInfo.accountNumber;
       }
     });
-    getUserList([...arr]);
+    setUpUserList([...arr]);
   });
 
   socket.on("private-Chat", (res) => {

@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 
 const userType = {
   userName:String, // 昵称
-  accountNumber: Number, // 账号
+  accountNumber: String, // 账号
   password:String, // 密码
   gender: Number, // 性别 未设0，男1，女2
   introduction:String, // 简介

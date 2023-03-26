@@ -2,7 +2,7 @@
   <div class="chat-box" v-if="flag">
     <!-- 聊天框顶部 -->
     <div class="header">
-      <h1>{{chatUser.userName}}聊天界面</h1>
+      <h1>{{currentChatUserInfo.userName}}聊天界面</h1>
     </div>
 
     <!-- 聊天框内容 -->
@@ -53,37 +53,38 @@ const innerRef = ref();
 /**
  * 获取状态库数据
  */
-const flag = computed(() => store.flag);
-const chatUser:any = computed(() => store.chatUser);
-const userName = computed(() => store.userInfo.userName);
+
+const flag = computed<boolean>(() => store.flag);
+const currentChatUserInfo = computed<IUserInfo>(() => store.currentChatUserInfo);
+const userName = computed<string>(() => store.getUserInfo);
 const chatMassage = computed(() => store.chatMassage);
 
 /**
  * 检测数据变化
  */
-watch(chatMassage.value,()=>{
-   scrollbarBottom()
-})
+watch(chatMassage.value, () => {
+  scrollbarBottom();
+});
 
 /**
  * 检测滚动条始终保持在底部
  */
 const scrollbarBottom = () => {
-  nextTick(()=>{
-      scrollbarRef.value.setScrollTop(innerRef.value.clientHeight);
-  })
+  nextTick(() => {
+    scrollbarRef.value.setScrollTop(innerRef.value.clientHeight);
+  });
 };
 
 /**
  * 发送消息
  */
 const handleSend = () => {
-  emit("chat", { data: msg.value, to: chatUser.value });
+  emit("chat", { data: msg.value, to: currentChatUserInfo.value });
   changeMessage({
     data: msg.value,
     type: "right",
   });
-  msg.value = ''
+  msg.value = "";
 };
 </script>
 

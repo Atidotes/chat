@@ -2,6 +2,7 @@ const JWT = require('./JWT')
 const { Server } = require('socket.io');
 const { createServer } = require("http");
 const config = require('../env.config')
+const {AES_Encrypt,AES_Decrypt} = require('./encryption')
 
 const start = (app) => {
   const httpServer = createServer(app.callback());
@@ -18,6 +19,7 @@ const start = (app) => {
     if (token !== 'null') {
       const payload = JWT.verify(token)
       if (payload) {
+
         socket.user = payload
         // 群发在线用户
         sendAll(io)
