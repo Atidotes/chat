@@ -222,7 +222,7 @@ const handleLogon = (formRef: FormInstance | undefined) => {
         accountNumber: proxy.$AES_Encrypt(logonData.accountNumber),
         password: proxy.$AES_Encrypt(logonData.password),
         userName: proxy.$AES_Encrypt(logonData.userName),
-        captcha: proxy.$AES_Encrypt(logonData.captcha),
+        captcha: logonData.captcha,
       };
 
       let result = await toLogon(params);

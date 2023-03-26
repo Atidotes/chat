@@ -2,7 +2,6 @@ const Router = require('koa-router')
 const chatServices = require('../../services/web/chatServices')
 const JWT = require('../../util/JWT')
 const svgCaptcha = require('svg-captcha');
-const { AES_Encrypt, AES_Decrypt } = require('../../util/encryption')
 
 const chatControllers = new Router()
 let captchaText = '0'
@@ -11,7 +10,7 @@ let captchaText = '0'
 chatControllers.post('/login', async (ctx, next) => {
   const { password, accountNumber } = ctx.request.body
   let result = await chatServices.login({ password, accountNumber })
-  
+
   if (result) {
     // 设置token
     const token = JWT.generate({
@@ -73,11 +72,8 @@ chatControllers.get('/captcha', (ctx, next) => {
 /** 注册 */
 chatControllers.post('/logon', async (ctx, next) => {
   let { password, accountNumber, userName, captcha } = ctx.request.body
-  
-  // 解密数据
-  captcha = AES_Decrypt(captcha)
 
-  if (captcha.toLowerCase() === captchaText.toLowerCase()) {
+  if (captcha.toLowerCase() == captchaText.toLowerCase()) {
     let res = await chatServices.findNumber({ accountNumber })
 
     if (res) {
