@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const chatServices = require('../../services/web/chatServices')
 const JWT = require('../../util/JWT')
 const svgCaptcha = require('svg-captcha');
+const config = require('../../env.config')
 
 const chatControllers = new Router()
 let captchaText = '0'
@@ -14,6 +15,7 @@ chatControllers.post('/login', async (ctx, next) => {
   if (result) {
     // 设置token
     const token = JWT.generate({
+      _id: result._id,
       accountNumber: result.accountNumber,
       userName: result.userName
     }, '1d')
@@ -25,7 +27,9 @@ chatControllers.post('/login', async (ctx, next) => {
       message: '登录成功',
       data: {
         accountNumber: result.accountNumber,
-        userName: result.userName
+        userName: result.userName,
+        avatar: `${config.APP_BASE}:${config.APP_PORT}${result.avatar}`,
+        introduction: result.introduction,
       }
     }
   } else {

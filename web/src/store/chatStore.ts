@@ -14,6 +14,8 @@ export const useChatStore = defineStore('chat', {
     userInfo: {   // 当前用户信息
       accountNumber: null,
       userName: '',
+      avatar: '',
+      introduction: '',
     } as IUserInfo,
   }),
 
@@ -57,16 +59,14 @@ export const useChatStore = defineStore('chat', {
 
     /** 解密当前用户昵称 */
     getUserInfo: (state) => {
-      /** 组件实例 */
-      const { proxy } = getCurrentInstance() as any;
-
-      console.log('解密数据', state.userInfo.userName)
-      console.log('123',AES_Decrypt)      
-      console.log('解密', proxy.$AES_Decrypt(state.userInfo.userName as string))
-      console.log('解密2', AES_Decrypt(state.userInfo.userName as string))
-
-
-      return proxy.$AES_Decrypt(state.userInfo.userName as string)
+      const avatar: string = state.userInfo.avatar as string
+      state.userInfo.introduction = state.userInfo.introduction ? state.userInfo.introduction : '暂无简介'
+      if (avatar && !avatar.includes("undefined")) {
+        return state.userInfo;
+      } else {
+        state.userInfo.avatar = "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        return state.userInfo;
+      }
     }
   },
 

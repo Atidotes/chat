@@ -3,18 +3,21 @@ const bodyParser = require('koa-bodyparser')
 const config = require('./env.config')
 const chatRouter = require('./router/web/chatRouter')
 const JWT = require('./util/JWT')
-require('./config/db.config')
 const chat = require('./util/chat')
-
+const path = require('path')
+const static = require('koa-static')
+require('./config/db.config')
 
 /** 实例化koa */
 const app = new koa()
 app.use(bodyParser())
 chat(app)
+app.use(static(path.join(__dirname, "/assets")))
+// app.use(static("/assets"))
 
 /** token验证 */
 app.use(async (ctx, next) => {
-  const arr = ['/web/api/login', '/web/api/captcha','/web/api/logon']
+  const arr = ['/web/api/login', '/web/api/captcha', '/web/api/logon']
   if (arr.includes(ctx.url)) return await next()
 
   // 获取token值
@@ -29,6 +32,7 @@ app.use(async (ctx, next) => {
     if (analysis) {
       // 设置token
       const newToken = JWT.generate({
+        _id: analysis._id,
         accountNumber: analysis.accountNumber,
         userName: analysis.userName,
       }, '1d')

@@ -1,8 +1,26 @@
 <template>
   <div class="box-sidebar">
-    <div class="head-sculpture"
-      :style="{backgroundImage:`url('https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png')`}">
-    </div>
+    <el-popover effect="dark" :width="280" :visible="avatarVisible" placement="bottom-start">
+      <template #reference>
+        <el-avatar id="iconAvatar" @click.preventDefault="avatarVisible = !avatarVisible" shape="square"
+          class="head-sculpture" :size="40"
+          :src="userInfo.avatar" />
+      </template>
+      <template #default>
+        <el-row :gutter="10">
+          <el-col :span="6">
+            <el-avatar shape="square" style="margin-top:15px;margin-left:5px;" :size="50" :src="userInfo.avatar" />
+          </el-col>
+          <el-col :span="18">
+            <h3>{{userInfo.userName}}</h3>
+            <div>账号：{{userInfo.accountNumber}}</div>
+            <div>简介：{{userInfo.introduction}}</div>
+          </el-col>
+        </el-row>
+        <el-button @click="editDataFlag = true" style="margin-top:10px;margin-left:50px;"
+          type="primary">编辑资料</el-button>
+      </template>
+    </el-popover>
 
     <el-popover placement="right" :width="200" :visible="visible" effect="dark">
       <template #reference>
@@ -22,20 +40,29 @@
       </template>
     </el-popover>
   </div>
+
+  <editData v-model="editDataFlag"></editData>
 </template>
 
 <script setup lang="ts">
 import { Menu, SwitchButton } from "@element-plus/icons-vue";
-import { onBeforeUnmount, onMounted, onUnmounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, onUnmounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import editData from "./editData.vue";
+import { useChatStore } from "@/store/chatStore";
 
 const router = useRouter();
+const store = useChatStore();
 
 const visible = ref(false);
+const avatarVisible = ref(false);
 const trim = ref(0);
+const editDataFlag = ref(false);
 
+const userInfo = computed(() => store.getUserInfo);
 onMounted(() => {
   window.addEventListener("click", handleClick, false);
+  window.addEventListener("click", handleAvatar, false);
 });
 
 /**
@@ -45,6 +72,13 @@ const handleClick = (e: any) => {
   if (!visible.value) return;
   if (e.target.parentNode.id !== "iconChat") {
     return (visible.value = false);
+  }
+};
+
+const handleAvatar = (e: any) => {
+  if (!avatarVisible.value) return;
+  if (e.target.parentNode.id !== "iconAvatar") {
+    return (avatarVisible.value = false);
   }
 };
 
@@ -68,6 +102,7 @@ const handleLoginOut = () => {
 onBeforeUnmount(() => {
   clearTimeout(trim.value);
   window.removeEventListener("click", handleClick, false);
+  window.removeEventListener("click", handleAvatar, false);
 });
 </script>
 
@@ -84,12 +119,10 @@ onBeforeUnmount(() => {
   background-color: #70809040;
   position: relative;
   .head-sculpture {
-    width: 35px;
-    height: 35px;
-    background-position: center;
-    background-size: cover;
-    margin: 10px auto;
-    border-radius: 5px;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%, 0);
     cursor: pointer;
   }
   .menu {
