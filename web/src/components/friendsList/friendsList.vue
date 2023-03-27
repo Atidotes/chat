@@ -21,7 +21,8 @@ import { computed, getCurrentInstance } from "vue";
 const store = useChatStore();
 const { selectChat } = store;
 
-const userList = computed<Array<IUserInfo>>(() => store.getUserList);
+// const userList = computed<Array<IUserInfo>>(() => store.getUserList);
+const userList = computed<Array<IUserInfo>>(() => store.userList);
 
 /**
  * 点击进入聊天界面

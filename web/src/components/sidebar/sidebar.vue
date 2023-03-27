@@ -41,7 +41,7 @@ onMounted(() => {
 /**
  * 点击事件
  */
-const handleClick = (e) => {
+const handleClick = (e: any) => {
   if (!visible.value) return;
   if (e.target.parentNode.id !== "iconChat") {
     return (visible.value = false);

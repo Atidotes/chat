@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-// import { AES_Decrypt } from '../util/encryption'
+import { AES_Decrypt } from '../util/encryption'
 import { getCurrentInstance } from 'vue'
 
 export const useChatStore = defineStore('chat', {
@@ -59,7 +59,13 @@ export const useChatStore = defineStore('chat', {
     getUserInfo: (state) => {
       /** 组件实例 */
       const { proxy } = getCurrentInstance() as any;
-      
+
+      console.log('解密数据', state.userInfo.userName)
+      console.log('123',AES_Decrypt)      
+      console.log('解密', proxy.$AES_Decrypt(state.userInfo.userName as string))
+      console.log('解密2', AES_Decrypt(state.userInfo.userName as string))
+
+
       return proxy.$AES_Decrypt(state.userInfo.userName as string)
     }
   },

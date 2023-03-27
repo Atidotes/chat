@@ -191,7 +191,7 @@ const handleLogin = (formRef: FormInstance | undefined) => {
     if (valid) {
       // 加密数据
       const params: IUserInfo = {
-        accountNumber: proxy.$AES_Encrypt(loginData.accountNumber),
+        accountNumber: loginData.accountNumber,
         password: proxy.$AES_Encrypt(loginData.password),
       };
 
@@ -219,9 +219,9 @@ const handleLogon = (formRef: FormInstance | undefined) => {
     if (valid) {
       // 加密数据
       const params: IUserInfo = {
-        accountNumber: proxy.$AES_Encrypt(logonData.accountNumber),
+        accountNumber: logonData.accountNumber,
         password: proxy.$AES_Encrypt(logonData.password),
-        userName: proxy.$AES_Encrypt(logonData.userName),
+        userName: logonData.userName,
         captcha: logonData.captcha,
       };
 

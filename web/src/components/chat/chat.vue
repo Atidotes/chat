@@ -55,7 +55,8 @@ const innerRef = ref();
  */
 const flag = computed<boolean>(() => store.flag);
 const currentChatUserInfo = computed<IUserInfo>(() => store.currentChatUserInfo);
-const userName = computed<string | undefined>(() => store.getUserInfo);
+// const userName = computed<string | undefined>(() => store.getUserInfo);
+const userName = computed<string | undefined>(() => store.userInfo.userName);
 const chatMassage = computed(() => store.chatMassage);
 
 /**
