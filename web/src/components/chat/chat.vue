@@ -58,9 +58,11 @@ const currentChatUserInfo = computed<IUserInfo>(
   () => store.getCurrentChatUserInfo
 );
 const userInfo = computed<IUserInfo>(() => store.getUserInfo);
-const chatMassage = computed(
-  () => store.chatMassage[currentChatUserInfo.value.accountNumber]
-);
+const chatMassage = computed(() => {
+  return store.chatMassage[
+    currentChatUserInfo.value.accountNumber as keyof typeof store.chatMassage
+  ];
+});
 const { getChatMassage } = storeToRefs(store);
 
 /**

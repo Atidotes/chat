@@ -17,6 +17,7 @@ export const useChatStore = defineStore('chat', {
         userName: '',
         avatar: '',
         introduction: '',
+        file: null,
       },
     }
   },
@@ -35,7 +36,7 @@ export const useChatStore = defineStore('chat', {
 
     /** 获取用户信息 */
     setUpUserInfo(data: IUserInfo) {
-      this.userInfo = data
+      this.userInfo = { ...this.userInfo, ...data }
     },
 
     /** 获取聊天记录 */

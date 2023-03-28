@@ -15,15 +15,15 @@ npm install
 **2. 项目启动**
 
 ``` shell
-npm run dev // 以生产模式启动
-npm run pro // 以开发模式启动
+npm run dev # 以生产模式启动
+npm run pro # 以开发模式启动
 ```
 
 **3. 项目编译**
 
 ``` shell
-npm run build:dev // 以开发模式编译
-npm run build:pro // 以生产模式编译
+npm run build:dev # 以开发模式编译
+npm run build:pro # 以生产模式编译
 ```
 
 **4. 项目预览**
@@ -45,7 +45,8 @@ npm install
 **2. 项目启动**
 
 ``` shell
-npm start
+npm start  # 为生产环境启动命令
+npm run serve # 为开发环境启动命令(需要全局安装nodemon)
 ```
 
 **三、项目部署**
@@ -57,7 +58,7 @@ npm start
 1. 项目打包
 
 ``` shell
-npm run build:pro // 部署到服务器上需要以生产模式编译
+npm run build:pro # 部署到服务器上需要以生产模式编译
 ```
 
 2. 项目部署到服务器
