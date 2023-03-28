@@ -9,7 +9,7 @@ declare interface IResult {
 declare interface IStort {
   flag: boolean,
   userList: Array<IUserInfo>
-  chatMassage: Array<any>
+  chatMassage: any
   currentChatUserInfo: IUserInfo
   userInfo: IUserInfo
 }

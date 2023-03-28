@@ -57,7 +57,7 @@ socket.on("connect", () => {
   });
 
   socket.on("private-Chat", (res) => {
-    changeMessage({
+    changeMessage(res.userChat, {
       avatar: res.userChat.avatar,
       data: res.data,
       type: "left",

@@ -9,7 +9,8 @@
     <div class="chat-content">
       <el-scrollbar ref="scrollbarRef" always>
         <ul ref="innerRef" class="content">
-          <li v-for="(item,index) in chatMassage" :key="index" :class="item.type === 'left' ? 'left' : 'right'">
+          <li v-for="(item,index) in getChatMassage(currentChatUserInfo.accountNumber)" :key="index"
+            :class="item.type === 'left' ? 'left' : 'right'">
             <el-avatar :size="50" :src="item.avatar" />
             <div :class="item.type === 'left'? 'text' : 'text-right'">
               {{item.data}}
@@ -36,6 +37,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch, nextTick } from "vue";
 import { useChatStore } from "@/store/chatStore";
+import { storeToRefs } from "pinia";
 
 const store = useChatStore();
 const { changeMessage } = store;
@@ -56,12 +58,18 @@ const currentChatUserInfo = computed<IUserInfo>(
   () => store.getCurrentChatUserInfo
 );
 const userInfo = computed<IUserInfo>(() => store.getUserInfo);
-const chatMassage = computed(() => store.chatMassage);
+const chatMassage = computed(
+  () => store.chatMassage[currentChatUserInfo.value.accountNumber]
+);
+const { getChatMassage } = storeToRefs(store);
 
 /**
  * 检测数据变化
  */
-watch(chatMassage.value, () => {
+watch(chatMassage, () => {
+  scrollbarBottom();
+});
+watch(currentChatUserInfo, () => {
   scrollbarBottom();
 });
 
@@ -78,12 +86,13 @@ const scrollbarBottom = () => {
  * 发送消息
  */
 const handleSend = () => {
+  if (!msg.value) return (msg.value = "");
   emit("chat", {
     data: msg.value,
     to: currentChatUserInfo.value,
     userChat: userInfo.value,
   });
-  changeMessage({
+  changeMessage(currentChatUserInfo.value, {
     avatar: userInfo.value.avatar,
     data: msg.value,
     type: "right",

@@ -3,6 +3,12 @@
 </template>
 
 <script setup lang="ts">
+import { onBeforeUnmount } from "vue";
+
+onBeforeUnmount(() => {
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("chat");
+});
 </script>
 
 <style>
