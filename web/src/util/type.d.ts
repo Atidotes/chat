@@ -6,6 +6,14 @@ declare interface IResult {
   data?: object | Array | string
 }
 
+declare interface IStort {
+  flag: boolean,
+  userList: Array<IUserInfo>
+  chatMassage: Array<any>
+  currentChatUserInfo: IUserInfo
+  userInfo: IUserInfo
+}
+
 /** 用户信息 */
 declare interface IUserInfo {
   accountNumber?: number | null | string,
@@ -27,11 +35,13 @@ declare interface ISelectChat {
 /** 聊天记录 */
 declare interface IChangeInfo {
   data: string,
-  type: string
+  type: string,
+  avatar: string | undefined,
 }
 
 /** 要向谁发送信息以及发送信息内容 */
 declare interface IChat {
   data: string,
-  to: Object
+  to: Object,
+  userChat: IUserInfo
 }

@@ -3,9 +3,7 @@
     <el-scrollbar>
       <el-card @click="handleClick(item)" v-for="item in userList" :key="item.userName"
         :body-style="{ padding: '0px' }">
-        <div class="head-sculpture"
-          :style="{backgroundImage:`url('https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png')`}">
-        </div>
+        <el-avatar id="iconAvatar" class="head-sculpture" :size="50" :src="item.avatar" />
         <div class="title">
           <span>{{item.userName}}</span>
         </div>
@@ -21,8 +19,7 @@ import { computed, getCurrentInstance } from "vue";
 const store = useChatStore();
 const { selectChat } = store;
 
-// const userList = computed<Array<IUserInfo>>(() => store.getUserList);
-const userList = computed<Array<IUserInfo>>(() => store.userList);
+const userList = computed<Array<IUserInfo>>(() => store.getUserList);
 
 /**
  * 点击进入聊天界面
@@ -33,6 +30,7 @@ const handleClick = (target: IUserInfo) => {
     currentChatUserInfo: {
       accountNumber: target.accountNumber,
       userName: target.userName,
+      avatar: target.avatar,
     },
   });
 };
@@ -49,14 +47,7 @@ const handleClick = (target: IUserInfo) => {
   border-top: 1px solid #00000040;
   border-left: 1px solid #00000040;
   border-bottom: 1px solid #00000040;
-  // border-top-left-radius: 10px;
-  // border-bottom-left-radius: 10px;
   .head-sculpture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
     float: left;
   }
   .title {

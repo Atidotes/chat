@@ -10,9 +10,7 @@
       <el-scrollbar ref="scrollbarRef" always>
         <ul ref="innerRef" class="content">
           <li v-for="(item,index) in chatMassage" :key="index" :class="item.type === 'left' ? 'left' : 'right'">
-            <div class="head-sculpture"
-              :style="{backgroundImage:`url('https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png')`}">
-            </div>
+            <el-avatar :size="50" :src="item.avatar" />
             <div :class="item.type === 'left'? 'text' : 'text-right'">
               {{item.data}}
             </div>
@@ -30,7 +28,7 @@
 
   <div class="chat-box" v-else>
     <h2 class="title">
-      欢迎{{userName}}回来！
+      欢迎{{userInfo.userName}}回来！
     </h2>
   </div>
 </template>
@@ -54,9 +52,10 @@ const innerRef = ref();
  * 获取状态库数据
  */
 const flag = computed<boolean>(() => store.flag);
-const currentChatUserInfo = computed<IUserInfo>(() => store.currentChatUserInfo);
-// const userName = computed<string | undefined>(() => store.getUserInfo);
-const userName = computed<string | undefined>(() => store.userInfo.userName);
+const currentChatUserInfo = computed<IUserInfo>(
+  () => store.getCurrentChatUserInfo
+);
+const userInfo = computed<IUserInfo>(() => store.getUserInfo);
 const chatMassage = computed(() => store.chatMassage);
 
 /**
@@ -79,8 +78,13 @@ const scrollbarBottom = () => {
  * 发送消息
  */
 const handleSend = () => {
-  emit("chat", { data: msg.value, to: currentChatUserInfo.value });
+  emit("chat", {
+    data: msg.value,
+    to: currentChatUserInfo.value,
+    userChat: userInfo.value,
+  });
   changeMessage({
+    avatar: userInfo.value.avatar,
     data: msg.value,
     type: "right",
   });
@@ -134,13 +138,6 @@ const handleSend = () => {
         justify-content: end;
         align-items: center;
         margin-bottom: 10px;
-      }
-      .head-sculpture {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        background-position: center;
-        background-size: cover;
       }
       .text {
         max-width: 40%;

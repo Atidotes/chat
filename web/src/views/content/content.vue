@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import chat from "@/components/chat/chat.vue";
 import friendsList from "@/components/friendsList/friendsList.vue";
-import sidebar from '@/components/sidebar/sidebar.vue'
+import sidebar from "@/components/sidebar/sidebar.vue";
 import { io } from "socket.io-client";
 import { useChatStore } from "@/store/chatStore";
 import { onBeforeUnmount, ref } from "vue";
@@ -58,6 +58,7 @@ socket.on("connect", () => {
 
   socket.on("private-Chat", (res) => {
     changeMessage({
+      avatar: res.userChat.avatar,
       data: res.data,
       type: "left",
     });

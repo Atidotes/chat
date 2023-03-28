@@ -34,6 +34,7 @@ app.use(async (ctx, next) => {
         _id: analysis._id,
         accountNumber: analysis.accountNumber,
         userName: analysis.userName,
+        avatar: `${config.APP_BASE}:${config.APP_PORT}${analysis.userName}`
       }, '1d')
       ctx.set('Authorization', newToken)
 

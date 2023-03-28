@@ -1,23 +1,24 @@
 import { defineStore } from 'pinia'
-import { AES_Decrypt } from '../util/encryption'
-import { getCurrentInstance } from 'vue'
 
 export const useChatStore = defineStore('chat', {
-  state: () => ({
-    flag: false, // 是否打开聊天
-    userList: [] as Array<IUserInfo>, // 用户列表
-    chatMassage: [] as Array<any>, // 聊天记录
-    currentChatUserInfo: { // 当前聊天用户信息
-      accountNumber: null,
-      userName: '',
-    } as IUserInfo,
-    userInfo: {   // 当前用户信息
-      accountNumber: null,
-      userName: '',
-      avatar: '',
-      introduction: '',
-    } as IUserInfo,
-  }),
+  state: (): IStort => {
+    return {
+      flag: false, // 是否打开聊天
+      userList: [], // 用户列表
+      chatMassage: [], // 聊天记录
+      currentChatUserInfo: { // 当前聊天用户信息
+        accountNumber: null,
+        userName: '',
+        avatar: '',
+      },
+      userInfo: {   // 当前用户信息
+        accountNumber: null,
+        userName: '',
+        avatar: '',
+        introduction: '',
+      },
+    }
+  },
 
   actions: {
     /** 获取用户列表信息 */
@@ -43,22 +44,21 @@ export const useChatStore = defineStore('chat', {
   },
 
   getters: {
-    /** 解密用户列表用户昵称 */
-    getUserList: (state) => {
-      /** 组件实例 */
-      const { proxy } = getCurrentInstance() as any;
-
-      return state.userList.length !== 0 ? state.userList.map(item => {
-        item.userName = proxy.$AES_Decrypt(item.userName as string)
-        return {
-          userName: item.userName,
-          accountNumber: item.accountNumber
+    /** 获取用户列表头像 */
+    getUserList: (state: IStort): Array<IUserInfo> => {
+      return state.userList.map((item: IUserInfo) => {
+        const avatar: string = item.avatar as string
+        if (avatar && !avatar.includes("undefined")) {
+          return item;
+        } else {
+          item.avatar = "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          return item;
         }
-      }) : state.userList
+      })
     },
 
-    /** 解密当前用户昵称 */
-    getUserInfo: (state) => {
+    /** 获取当前用户昵称 */
+    getUserInfo: (state: IStort): IUserInfo => {
       const avatar: string = state.userInfo.avatar as string
       state.userInfo.introduction = state.userInfo.introduction ? state.userInfo.introduction : '暂无简介'
       if (avatar && !avatar.includes("undefined")) {
@@ -67,12 +67,22 @@ export const useChatStore = defineStore('chat', {
         state.userInfo.avatar = "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         return state.userInfo;
       }
+    },
+
+    getCurrentChatUserInfo: (state: IStort): IUserInfo => {
+      const avatar: string = state.currentChatUserInfo.avatar as string
+      if (avatar && !avatar.includes("undefined")) {
+        return state.currentChatUserInfo;
+      } else {
+        state.currentChatUserInfo.avatar = "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        return state.currentChatUserInfo;
+      }
     }
   },
 
   persist: {
     key: 'chat',
-    paths: ['userInfo', 'userList',],
+    paths: ['userInfo', 'userList', 'chatMassage'],
     storage: sessionStorage,
   },
 })

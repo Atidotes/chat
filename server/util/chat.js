@@ -2,7 +2,7 @@ const JWT = require('./JWT')
 const { Server } = require('socket.io');
 const { createServer } = require("http");
 const config = require('../env.config')
-const {AES_Encrypt,AES_Decrypt} = require('./encryption')
+const { AES_Encrypt, AES_Decrypt } = require('./encryption')
 
 const start = (app) => {
   const httpServer = createServer(app.callback());
@@ -19,7 +19,6 @@ const start = (app) => {
     if (token !== 'null') {
       const payload = JWT.verify(token)
       if (payload) {
-
         socket.user = payload
         // 群发在线用户
         sendAll(io)
@@ -30,7 +29,7 @@ const start = (app) => {
         socket.on('private-Chat', (msg) => {
           Array.from(io.sockets.sockets).forEach(item => {
             if (item[1].user.accountNumber === msg.to.accountNumber) {
-              item[1].emit('private-Chat', { user: item[1].user, data: msg.data })
+              item[1].emit('private-Chat', { user: item[1].user, data: msg.data, userChat: msg.userChat })
             }
           })
         })

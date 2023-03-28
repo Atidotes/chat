@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, watch } from "vue";
+import { computed, ref, reactive, watch, onMounted } from "vue";
 import type { FormInstance, FormRules, UploadProps } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 import { upload } from "@/api/sidebar";
@@ -43,6 +43,12 @@ const editData: IUserInfo = reactive({
   introduction: "",
   avatar: "",
   file: null,
+});
+
+/** 获取状态库数据 */
+const userInfo = computed(() => store.getUserInfo);
+onMounted(() => {
+  Object.assign(editData, userInfo.value);
 });
 
 const editRules = reactive<FormRules>({
