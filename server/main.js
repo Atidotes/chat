@@ -13,7 +13,6 @@ const app = new koa()
 app.use(bodyParser())
 chat(app)
 app.use(static(path.join(__dirname, "/assets")))
-// app.use(static("/assets"))
 
 /** token验证 */
 app.use(async (ctx, next) => {
