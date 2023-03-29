@@ -15,7 +15,8 @@
 
   <!-- 音效 -->
   <audio ref="audioRef" hidden>
-    <source src="@/assets/01.mp3" type="audio/mpeg">
+    <!-- <source src="@/assets/01.mp3" type="audio/mpeg"> -->
+    <source :src="audioURL" type="audio/mpeg">
   </audio>
 </template>
 
@@ -25,13 +26,17 @@ import friendsList from "@/components/friendsList/friendsList.vue";
 import sidebar from "@/components/sidebar/sidebar.vue";
 import { io } from "socket.io-client";
 import { useChatStore } from "@/store/chatStore";
-import { onBeforeUnmount, ref } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 
 // 使用状态库
 const store = useChatStore();
 const { setUpUserList, changeMessage } = store;
 
 const audioRef = ref();
+const audioURL = computed<string>(() => store.getAudio);
+
+/** 检查音频路径是否改变 */
+watch(audioURL, () => audioRef.value.load());
 
 /**
  * 创建连接

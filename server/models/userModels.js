@@ -11,6 +11,7 @@ const userType = {
   gender: Number, // 性别 未设0，男1，女2
   introduction: String, // 简介
   avatar: String, // 头像路径
+  audio:String, // 音频路径
 }
 
 const userModel = mongoose.model('user', new Schema(userType))

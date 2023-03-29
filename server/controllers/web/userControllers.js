@@ -7,15 +7,24 @@ const JWT = require('../../util/JWT')
 
 const userControllers = new Router()
 
-/** 上传配置 */
-const storage = multer.diskStorage({
+/** 上传图片配置 */
+const storageAvatar = multer.diskStorage({
   destination: (req, file, cb) => {
     return cb(null, path.join(__dirname, '../../assets/avatar'))
   },
 })
-const upload = multer({ storage })
 
-userControllers.post('/upload', upload.single('file'), async (ctx, next) => {
+/** 上传音频配置 */
+const storageAudio = multer.diskStorage({
+  destination: (req, file, cb) => {
+    return cb(null, path.join(__dirname, '../../assets/audio'))
+  },
+})
+const uploadAvatar = multer({ storage: storageAvatar })
+const uploadAudio = multer({ storage: storageAudio })
+
+/** 上传图片接口 */
+userControllers.post('/upload', uploadAvatar.single('file'), async (ctx, next) => {
   const { userName, introduction } = ctx.req.body
 
   const token = ctx.headers['authorization'].split(' ')[1]
@@ -51,6 +60,35 @@ userControllers.post('/upload', upload.single('file'), async (ctx, next) => {
         userName,
         introduction,
       }
+    }
+  }
+})
+
+/** 上传音频接口 */
+userControllers.post('/audio', uploadAudio.single('file'), async (ctx, next) => {
+  const token = ctx.headers['authorization'].split(' ')[1]
+  const analysis = JWT.verify(token)
+  const audio = ctx.req.file ? `/audio/${ctx.req.file.filename}` : false
+
+  await userServices.audio({
+    _id: analysis._id,
+    audio,
+  })
+
+  if (audio) {
+    ctx.body = {
+      code: 200,
+      message: '上传成功',
+      success: true,
+      data: {
+        audio: `${config.APP_BASE}:${config.APP_PORT}${audio}`,
+      }
+    }
+  } else {
+    ctx.body = {
+      code: 403,
+      message: '没有文件上传',
+      success: true,
     }
   }
 })

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useChatStore = defineStore('chat', {
-  state: (): IStort => {
+  state: (): IChatStore => {
     return {
       flag: false, // 是否打开聊天
       userList: [], // 用户列表
@@ -18,6 +18,7 @@ export const useChatStore = defineStore('chat', {
         avatar: '',
         introduction: '',
         file: null,
+        audio: '',
       },
     }
   },
@@ -52,7 +53,7 @@ export const useChatStore = defineStore('chat', {
 
   getters: {
     /** 获取用户列表头像 */
-    getUserList: (state: IStort): Array<IUserInfo> => {
+    getUserList: (state: IChatStore): Array<IUserInfo> => {
       return state.userList.map((item: IUserInfo) => {
         const avatar: string = item.avatar as string
         if (avatar && !avatar.includes("undefined")) {
@@ -65,7 +66,7 @@ export const useChatStore = defineStore('chat', {
     },
 
     /** 获取当前用户昵称 */
-    getUserInfo: (state: IStort): IUserInfo => {
+    getUserInfo: (state: IChatStore): IUserInfo => {
       const avatar: string = state.userInfo.avatar as string
       state.userInfo.introduction = state.userInfo.introduction ? state.userInfo.introduction : '暂无简介'
       if (avatar && !avatar.includes("undefined")) {
@@ -77,7 +78,7 @@ export const useChatStore = defineStore('chat', {
     },
 
     /** 获取当前选择的聊天用户 */
-    getCurrentChatUserInfo: (state: IStort): IUserInfo => {
+    getCurrentChatUserInfo: (state: IChatStore): IUserInfo => {
       const avatar: string = state.currentChatUserInfo.avatar as string
       if (avatar && !avatar.includes("undefined")) {
         return state.currentChatUserInfo;
@@ -88,11 +89,22 @@ export const useChatStore = defineStore('chat', {
     },
 
     /** 获取聊天记录 */
-    getChatMassage: (state: IStort): any => {
+    getChatMassage: (state: IChatStore): any => {
       return (userId: number) => {
         return state.chatMassage[userId]
       }
     },
+
+    /** 获取音频 */
+    getAudio: (state: IChatStore): string => {
+      const audio: string = state.userInfo.audio as string
+      if (audio && !audio.includes("undefined")) {
+        return state.userInfo.audio as string;
+      } else {
+        state.userInfo.audio = new URL('@/assets/01.mp3', import.meta.url).href
+        return state.userInfo.audio;
+      }
+    }
   },
 
   persist: {

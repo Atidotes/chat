@@ -3,8 +3,7 @@
     <el-popover effect="dark" :width="280" :visible="avatarVisible" placement="bottom-start">
       <template #reference>
         <el-avatar id="iconAvatar" @click.preventDefault="avatarVisible = !avatarVisible" shape="square"
-          class="head-sculpture" :size="40"
-          :src="userInfo.avatar" />
+          class="head-sculpture" :size="40" :src="userInfo.avatar" />
       </template>
       <template #default>
         <el-row :gutter="10">
@@ -30,6 +29,14 @@
       </template>
       <template #default>
         <div @click="visible=!visible">
+          <div class="setting" @click="settingVisible = true">
+            <el-icon>
+              <Setting />
+            </el-icon>
+            <span>设置</span>
+          </div>
+        </div>
+        <div @click="visible=!visible">
           <div class="login-out" @click="handleLoginOut">
             <el-icon>
               <SwitchButton />
@@ -41,14 +48,18 @@
     </el-popover>
   </div>
 
+  <!-- 修改个人资料 -->
   <editData v-model="editDataFlag"></editData>
+  <!-- 设置 -->
+  <settingDiadlog v-model="settingVisible"></settingDiadlog>
 </template>
 
 <script setup lang="ts">
-import { Menu, SwitchButton } from "@element-plus/icons-vue";
+import { Menu, SwitchButton, Setting } from "@element-plus/icons-vue";
 import { onBeforeUnmount, onMounted, onUnmounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import editData from "./editData.vue";
+import editData from '@/components/sidebar/modules/editData/editData.vue'
+import settingDiadlog from "@/components/sidebar/modules/settingDiadlog/settingDiadlog.vue";
 import { useChatStore } from "@/store/chatStore";
 
 const router = useRouter();
@@ -56,6 +67,7 @@ const store = useChatStore();
 
 const visible = ref(false);
 const avatarVisible = ref(false);
+const settingVisible = ref(false);
 const trim = ref(0);
 const editDataFlag = ref(false);
 
@@ -134,13 +146,20 @@ onBeforeUnmount(() => {
     cursor: pointer;
   }
 }
-.login-out {
+
+.login-out,
+.setting {
   width: 100%;
-  height: 25px;
-  line-height: 25px;
+  height: 30px;
+  line-height: 30px;
   cursor: pointer;
+  border-radius: 5px;
+  padding-left: 5px;
   span {
     margin-left: 5px;
+  }
+  &:hover {
+    background-color: dimgray;
   }
 }
 </style>

@@ -6,12 +6,17 @@ declare interface IResult {
   data?: object | Array | string
 }
 
-declare interface IStort {
+declare interface IChatStore {
   flag: boolean,
   userList: Array<IUserInfo>
   chatMassage: any
   currentChatUserInfo: IUserInfo
   userInfo: IUserInfo
+}
+
+declare interface ISettingStore {
+  assembly: Array<IObject>
+  menu: Array<IObject>
 }
 
 /** 用户信息 */
@@ -24,6 +29,13 @@ declare interface IUserInfo {
   introduction?: string,
   avatar?: string,
   file?: Blob | MediaSource | null,
+  audio?:string,
+}
+
+declare interface IObject {
+  id: number
+  title: string
+  name: string | any
 }
 
 /** 当前聊天用户信息 */

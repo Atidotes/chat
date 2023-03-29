@@ -10,26 +10,32 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Chat: typeof import('./src/components/chat/chat.vue')['default']
-    EditData: typeof import('./src/components/sidebar/editData.vue')['default']
+    EditData: typeof import('./src/components/sidebar/modules/editData/editData.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCol: typeof import('element-plus/es')['ElCol']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElMain: typeof import('element-plus/es')['ElMain']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     FriendsList: typeof import('./src/components/friendsList/friendsList.vue')['default']
+    Personalization: typeof import('./src/components/sidebar/modules/settingDiadlog/personalization.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Safe: typeof import('./src/components/sidebar/modules/settingDiadlog/safe.vue')['default']
+    SettingDiadlog: typeof import('./src/components/sidebar/modules/settingDiadlog/settingDiadlog.vue')['default']
     Sidebar: typeof import('./src/components/sidebar/sidebar.vue')['default']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

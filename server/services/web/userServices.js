@@ -11,6 +11,13 @@ const userServices = {
         userName, accountNumber, introduction,
       })
     }
+  },
+  audio: ({ _id, audio }) => {
+    if (audio) {
+      return userModel.updateOne({ _id }, {
+        audio,
+      })
+    }
   }
 }
 

@@ -5,7 +5,8 @@
         :body-style="{ padding: '0px' }">
         <el-avatar id="iconAvatar" class="head-sculpture" :size="50" :src="item.avatar" />
         <div class="title">
-          <span>{{item.userName}}</span>
+          <span class="title-name">{{item.userName}}</span>
+          <!-- <div class="title-center">你好！</div> -->
         </div>
       </el-card>
     </el-scrollbar>
@@ -51,11 +52,17 @@ const handleClick = (target: IUserInfo) => {
     float: left;
   }
   .title {
-    height: 50px;
-    line-height: 50px;
+    // height: 50px;
+    // line-height: 50px;
     text-align: left;
     margin-left: 10px;
     float: left;
+    .title-name{
+      font-size: 20px;
+    }
+    .title-center{
+      font-size: 12px;
+    }
   }
 }
 

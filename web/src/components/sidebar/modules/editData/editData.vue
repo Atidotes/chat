@@ -74,7 +74,7 @@ const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 const flag = computed<boolean>({
   set(value: Boolean) {
-    emit("update:modelValue", value);
+   return emit("update:modelValue", value);
   },
   get() {
     return props.modelValue;
