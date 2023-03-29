@@ -23,7 +23,7 @@
       </el-form-item>
     </el-form>
 
-    <el-button class="btn" @click="handleSave(editRef)" type="primary">保存资料</el-button>
+    <el-button :loading="editLoading" class="btn" @click="handleSave(editRef)" type="primary">保存资料</el-button>
   </el-dialog>
 </template>
 
@@ -37,6 +37,7 @@ import { useChatStore } from "@/store/chatStore";
 const store = useChatStore();
 const { setUpUserInfo } = store;
 
+const editLoading = ref(false);
 const editRef = ref<FormInstance>();
 const editData: IUserInfo = reactive({
   userName: "",
@@ -87,6 +88,7 @@ const handleSave = (editRef: FormInstance | undefined) => {
   if (!editRef) return;
   editRef.validate(async (valid) => {
     if (valid) {
+      editLoading.value = true;
       // 数据转换成FormData
       const params: FormData = new FormData();
       for (let item in editData) {
@@ -102,7 +104,9 @@ const handleSave = (editRef: FormInstance | undefined) => {
           type: "success",
           message: result.message,
         });
+        editLoading.value = false;
       } else {
+        editLoading.value = false;
         ElMessage({
           type: "error",
           message: result.message,
@@ -131,6 +135,10 @@ const handleSave = (editRef: FormInstance | undefined) => {
   width: 120px;
   height: 120px;
   text-align: center;
+}
+
+.example-showcase .el-loading-mask {
+  z-index: 9;
 }
 
 :deep(.el-textarea__inner) {

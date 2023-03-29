@@ -15,7 +15,8 @@
         </el-form-item>
 
         <!-- 登录 -->
-        <el-button class="btn" size="large" type="primary" @click="handleLogin(loginRef)">登录</el-button>
+        <el-button :loading="loginLoading" class="btn" size="large" type="primary"
+          @click="handleLogin(loginRef)">登录</el-button>
       </el-form>
 
       <span class="to-logon" @click="clickLogon">还没注册账号？去注册</span>
@@ -61,7 +62,8 @@
         </el-row>
 
         <!-- 注册 -->
-        <el-button class="btn" size="large" type="primary" @click="handleLogon(logonRef)">注册</el-button>
+        <el-button :loading="logonLoading" class="btn" size="large" type="primary"
+          @click="handleLogon(logonRef)">注册</el-button>
       </el-form>
 
       <span class="to-login" @click="flag = !flag">已有账号？去登录</span>
@@ -88,6 +90,8 @@ const { proxy } = getCurrentInstance() as any;
 /** 用户数据 */
 const flag = ref(true);
 const captchaData = ref("");
+const loginLoading = ref(false);
+const logonLoading = ref(false);
 const loginRef = ref<FormInstance>();
 const logonRef = ref<FormInstance>();
 const loginData: IUserInfo = reactive({
@@ -189,6 +193,7 @@ const handleLogin = (formRef: FormInstance | undefined) => {
   if (!formRef) return;
   formRef.validate(async (valid) => {
     if (valid) {
+      loginLoading.value = true;
       // 加密数据
       const params: IUserInfo = {
         accountNumber: loginData.accountNumber,
@@ -200,7 +205,9 @@ const handleLogin = (formRef: FormInstance | undefined) => {
         setUpUserInfo(result.data);
         router.push("/");
         formRef.resetFields();
+        loginLoading.value = false;
       } else {
+        loginLoading.value = false;
         ElMessage({
           type: "error",
           message: result.message,
@@ -217,6 +224,7 @@ const handleLogon = (formRef: FormInstance | undefined) => {
   if (!formRef) return;
   formRef.validate(async (valid) => {
     if (valid) {
+      logonLoading.value = true;
       // 加密数据
       const params: IUserInfo = {
         accountNumber: logonData.accountNumber,
@@ -234,7 +242,9 @@ const handleLogon = (formRef: FormInstance | undefined) => {
         });
         formRef.resetFields();
         handleCaptcha();
+        logonLoading.value = false;
       } else {
+        logonLoading.value = false;
         handleCaptcha();
         ElMessage({
           type: "error",

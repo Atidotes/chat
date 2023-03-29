@@ -12,9 +12,11 @@ chatControllers.post('/login', async (ctx, next) => {
   const { password, accountNumber } = ctx.request.body
   let result = await chatServices.login({ password, accountNumber })
   const url = 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png'
-  const avatar =  result.avatar === undefined ? url : `${config.APP_BASE}:${config.APP_PORT}${result.avatar}`
 
   if (result) {
+    // 头像设置
+    const avatar =  result.avatar === undefined ? url : `${config.APP_BASE}:${config.APP_PORT}${result.avatar}`
+
     // 设置token
     const token = JWT.generate({
       _id: result._id,
