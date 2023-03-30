@@ -3,7 +3,7 @@
     class="setting-dialog">
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside width="120px">
         <!-- 菜单 -->
         <el-menu v-for="item in menu" :key="item.id" :default-active="current.title" @select="menuSelect">
           <el-menu-item :index="item.name">{{item.title}}</el-menu-item>
