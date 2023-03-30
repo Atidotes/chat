@@ -66,9 +66,14 @@ userControllers.post('/upload', uploadAvatar.single('file'), async (ctx, next) =
 
 /** 上传音频接口 */
 userControllers.post('/audio', uploadAudio.single('file'), async (ctx, next) => {
+  const { audioURL } = ctx.req.body
+
   const token = ctx.headers['authorization'].split(' ')[1]
   const analysis = JWT.verify(token)
-  const audio = ctx.req.file ? `/audio/${ctx.req.file.filename}` : false
+  let audio = ctx.req.file ? `/audio/${ctx.req.file.filename}` : false
+  if (audioURL) {
+    audio = audioURL ? audioURL : false
+  }
 
   await userServices.audio({
     _id: analysis._id,
@@ -76,12 +81,23 @@ userControllers.post('/audio', uploadAudio.single('file'), async (ctx, next) => 
   })
 
   if (audio) {
-    ctx.body = {
-      code: 200,
-      message: '上传成功',
-      success: true,
-      data: {
-        audio: `${config.APP_BASE}:${config.APP_PORT}${audio}`,
+    if (audio === `/audio/${ctx.req.file?.filename}`) {
+      ctx.body = {
+        code: 200,
+        message: '上传成功',
+        success: true,
+        data: {
+          audio:`${config.APP_BASE}:${config.APP_PORT}${audio}`,
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 200,
+        message: '上传成功',
+        success: true,
+        data: {
+          audio,
+        }
       }
     }
   } else {

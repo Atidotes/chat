@@ -21,15 +21,16 @@ declare interface ISettingStore {
 
 /** 用户信息 */
 declare interface IUserInfo {
-  accountNumber?: number | null | string,
-  userName?: string,
-  password?: string,
-  password2?: string,
-  captcha?: string,
-  introduction?: string,
-  avatar?: string,
-  file?: Blob | MediaSource | null,
-  audio?:string,
+  accountNumber?: number | null | string
+  userName?: string
+  password?: string
+  password2?: string
+  captcha?: string
+  introduction?: string
+  avatar?: string
+  file?: Blob | MediaSource | null
+  audio?: string
+  audioURL?: string
 }
 
 declare interface IObject {

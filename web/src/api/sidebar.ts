@@ -9,7 +9,7 @@ export const upload = (params: FormData): Promise<IResult> => request({
   }
 })
 
-export const setting = (params: FormData): Promise<IResult> => request({
+export const uploadAudio = (params: FormData): Promise<IResult> => request({
   method: 'POST',
   url: 'user/audio',
   data: params,

@@ -29,6 +29,8 @@ declare module '@vue/runtime-core' {
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     FriendsList: typeof import('./src/components/friendsList/friendsList.vue')['default']
     Personalization: typeof import('./src/components/sidebar/modules/settingDiadlog/personalization.vue')['default']

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="flag" title="设置" width="40%" :close-on-click-modal="false" :show-close="false"
+  <el-dialog v-model="flag" title="设置" width="600px" :close-on-click-modal="false" :show-close="false"
     class="setting-dialog">
     <el-container>
       <!-- 侧边栏 -->
