@@ -104,7 +104,7 @@ const handleLoginOut = () => {
     type: "warning",
   }).then(() => {
     trim.value = setTimeout(() => {
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       sessionStorage.removeItem("chat");
       sessionStorage.removeItem("setting");
       router.push("/login");

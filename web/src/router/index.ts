@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import login from '@/views/login/login.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,7 +22,7 @@ const router = createRouter({
  * 路由守卫
  */
 router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem('token')
+  let token = sessionStorage.getItem('token')
   
   if (to.name === 'login') {
     if (!token) {

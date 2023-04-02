@@ -8,7 +8,7 @@ const requests = axios.create({
 // 添加请求拦截器
 requests.interceptors.request.use((config) => {
   
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   config.headers.Authorization = `Bearer ${token}`
   
   return config;
@@ -20,7 +20,7 @@ requests.interceptors.request.use((config) => {
 requests.interceptors.response.use((response) => {
 
   const { authorization } = response.headers
-  authorization && localStorage.setItem('token', authorization)
+  authorization && sessionStorage.setItem('token', authorization)
 
   return response.data;
 }, (error) => {
