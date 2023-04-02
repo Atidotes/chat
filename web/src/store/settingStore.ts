@@ -37,10 +37,23 @@ export const useSetting = defineStore('setting', {
           title: "安全",
           name: "safe",
         },
-      ]
+      ],
+      /** 邮箱 */
+      postbox: '',
+      /** input框绑定的邮箱值 */
+      inputPostbox: '',
     }
   },
   actions: {
+    /** 保存邮箱信息 */
+    savePostbox(value: string) {
+      this.postbox = value
+    }
+  },
 
+  persist: {
+    key: 'setting',
+    paths: ['menu', 'postbox','inputPostbox'],
+    storage: sessionStorage,
   },
 })

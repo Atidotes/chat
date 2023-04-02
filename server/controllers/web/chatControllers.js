@@ -1,5 +1,6 @@
 const Router = require('koa-router')
 const chatServices = require('../../services/web/chatServices')
+const setupServices = require('../../services/web/setupServices')
 const JWT = require('../../util/JWT')
 const svgCaptcha = require('svg-captcha');
 const config = require('../../env.config')
@@ -15,7 +16,8 @@ chatControllers.post('/login', async (ctx, next) => {
 
   if (result) {
     // 头像设置
-    const avatar =  result.avatar === undefined ? url : `${config.APP_BASE}:${config.APP_PORT}${result.avatar}`
+    const avatar = result.avatar === undefined ? url : `${config.APP_BASE}:${config.APP_PORT}${result.avatar}`
+    const res = await setupServices.findPostbox({ accountNumber })
 
     // 设置token
     const token = JWT.generate({
@@ -31,9 +33,10 @@ chatControllers.post('/login', async (ctx, next) => {
       success: true,
       message: '登录成功',
       data: {
-        accountNumber: result.accountNumber,
+        postbox: res?.postbox,
         userName: result.userName,
         introduction: result.introduction,
+        accountNumber: result.accountNumber,
         avatar: `${config.APP_BASE}:${config.APP_PORT}${result.avatar}`,
         audio: `${config.APP_BASE}:${config.APP_PORT}${result.audio}`,
       }

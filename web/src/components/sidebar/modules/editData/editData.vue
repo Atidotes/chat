@@ -3,12 +3,12 @@
     <el-form ref="editRef" :model="editData" :rules="editRules" status-icon label-position="right" :label-width="80">
       <!-- 昵称 -->
       <el-form-item label="昵称" prop="userName">
-        <el-input v-model="editData.userName"></el-input>
+        <el-input v-model="editData.userName" placeholder="请填写昵称"></el-input>
       </el-form-item>
 
       <!-- 个人简介 -->
       <el-form-item label="个人简介" prop="introduction">
-        <el-input type="textarea" :rows="2" v-model="editData.introduction" maxlength="30" show-word-limit></el-input>
+        <el-input type="textarea" :rows="2" v-model="editData.introduction" maxlength="30" show-word-limit placeholder="请填写个人简介"></el-input>
       </el-form-item>
 
       <!-- 头像 -->

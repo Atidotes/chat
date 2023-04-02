@@ -1,5 +1,6 @@
 import request from "@/util/axios.config";
 
+/** 上传头像 */
 export const upload = (params: FormData): Promise<IResult> => request({
   method: 'POST',
   url: 'user/upload',
@@ -9,6 +10,7 @@ export const upload = (params: FormData): Promise<IResult> => request({
   }
 })
 
+/** 上传音频 */
 export const uploadAudio = (params: FormData): Promise<IResult> => request({
   method: 'POST',
   url: 'user/audio',

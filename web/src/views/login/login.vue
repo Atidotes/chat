@@ -6,12 +6,12 @@
       <el-form class="login-from" ref="loginRef" :model="loginData" :rules="loginRules" status-icon>
         <!-- 账号 -->
         <el-form-item label="账号" prop="accountNumber">
-          <el-input v-model="loginData.accountNumber"></el-input>
+          <el-input v-model="loginData.accountNumber" placeholder="请填写手机号"></el-input>
         </el-form-item>
 
         <!-- 密码 -->
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="loginData.password" show-password></el-input>
+          <el-input type="password" v-model="loginData.password" show-password placeholder="请填写密码"></el-input>
         </el-form-item>
 
         <!-- 登录 -->
@@ -29,29 +29,29 @@
         label-position="right" :label-width="80">
         <!-- 账号 -->
         <el-form-item label="账号" prop="accountNumber">
-          <el-input v-model="logonData.accountNumber"></el-input>
+          <el-input v-model="logonData.accountNumber" placeholder="请填写手机号"></el-input>
         </el-form-item>
 
         <!-- 昵称 -->
         <el-form-item label="昵称" prop="userName">
-          <el-input v-model="logonData.userName"></el-input>
+          <el-input v-model="logonData.userName" placeholder="请填写昵称"></el-input>
         </el-form-item>
 
         <!-- 密码 -->
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="logonData.password" show-password></el-input>
+          <el-input type="password" v-model="logonData.password" show-password placeholder="请填写密码"></el-input>
         </el-form-item>
 
         <!-- 确认密码 -->
         <el-form-item label="确认密码" prop="password2">
-          <el-input type="password" v-model="logonData.password2" show-password></el-input>
+          <el-input type="password" v-model="logonData.password2" show-password placeholder="请填写确认密码"></el-input>
         </el-form-item>
 
         <el-row :gutter="10">
           <el-col :span="16">
             <!-- 验证码 -->
             <el-form-item label="验证码" prop="captcha">
-              <el-input v-model="logonData.captcha"></el-input>
+              <el-input v-model="logonData.captcha" placeholder="请填写验证码"></el-input>
             </el-form-item>
           </el-col>
 
@@ -78,10 +78,13 @@ import type { FormInstance, FormRules } from "element-plus";
 import { toLogin, getCaptcha, toLogon } from "@/api/login";
 import { useChatStore } from "@/store/chatStore";
 import { mobilePhone, pass } from "@/util/regular";
+import { useSetting } from "@/store/settingStore";
 
 /** 路由和状态库 */
 const router = useRouter();
 const store = useChatStore();
+const setting = useSetting();
+const { savePostbox } = setting;
 const { setUpUserInfo } = store;
 
 /** 组件实例 */
@@ -203,6 +206,8 @@ const handleLogin = (formRef: FormInstance | undefined) => {
       let result = await toLogin(params);
       if (result.code === 200 && result.success) {
         setUpUserInfo(result.data);
+        savePostbox(result.data.postbox);
+        setting.$patch({ inputPostbox: result.data.postbox });
         router.push("/");
         formRef.resetFields();
         loginLoading.value = false;

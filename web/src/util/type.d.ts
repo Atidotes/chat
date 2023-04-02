@@ -17,6 +17,8 @@ declare interface IChatStore {
 declare interface ISettingStore {
   assembly: Array<IObject>
   menu: Array<IObject>
+  postbox: string
+  inputPostbox: string
 }
 
 /** 用户信息 */

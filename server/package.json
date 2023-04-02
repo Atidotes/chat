@@ -18,6 +18,7 @@
     "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.6",
     "mongoose": "^7.0.1",
+    "nodemailer": "^6.9.1",
     "socket.io": "^4.6.1",
     "svg-captcha": "^1.4.0"
   }
