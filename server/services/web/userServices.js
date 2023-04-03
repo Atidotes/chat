@@ -1,14 +1,14 @@
 const userModel = require('../../models/userModels')
 
 const userServices = {
-  upload: ({ _id, userName, accountNumber, avatar, introduction, }) => {
+  upload: ({ _id, userName, accountNumber, avatar, introduction, gender }) => {
     if (avatar) {
       return userModel.updateOne({ _id }, {
-        userName, accountNumber, avatar, introduction,
+        userName, accountNumber, avatar, introduction, gender,
       })
     } else {
       return userModel.updateOne({ _id }, {
-        userName, accountNumber, introduction,
+        userName, accountNumber, introduction, gender,
       })
     }
   },

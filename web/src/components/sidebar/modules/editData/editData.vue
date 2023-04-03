@@ -3,12 +3,22 @@
     <el-form ref="editRef" :model="editData" :rules="editRules" status-icon label-position="right" :label-width="80">
       <!-- 昵称 -->
       <el-form-item label="昵称" prop="userName">
-        <el-input v-model="editData.userName" placeholder="请填写昵称"></el-input>
+        <el-input v-model.trim="editData.userName" placeholder="请填写昵称"></el-input>
+      </el-form-item>
+
+      <!-- 选择性别 -->
+      <el-form-item label="性别" prop="gender">
+        <el-radio-group v-model.number="editData.gender">
+          <el-radio :label="1">男</el-radio>
+          <el-radio :label="2">女</el-radio>
+          <el-radio :label="0">未知</el-radio>
+        </el-radio-group>
       </el-form-item>
 
       <!-- 个人简介 -->
       <el-form-item label="个人简介" prop="introduction">
-        <el-input type="textarea" :rows="2" v-model="editData.introduction" maxlength="30" show-word-limit placeholder="请填写个人简介"></el-input>
+        <el-input type="textarea" :rows="2" v-model.trim="editData.introduction" maxlength="30" show-word-limit
+          placeholder="请填写个人简介"></el-input>
       </el-form-item>
 
       <!-- 头像 -->
@@ -41,6 +51,7 @@ const editLoading = ref(false);
 const editRef = ref<FormInstance>();
 const editData: IUserInfo = reactive({
   userName: "",
+  gender: 0,
   introduction: "",
   avatar: "",
   file: null,
@@ -57,6 +68,7 @@ const editRules = reactive<FormRules>({
     { required: true, message: "请填写昵称", trigger: "blur" },
     { max: 8, min: 3, message: "昵称长度为3~8位字符", trigger: "blur" },
   ],
+  gender: [{ required: true, message: "请选择性别", trigger: "blur" }],
   introduction: [{ required: true, message: "请填简介", trigger: "blur" }],
   avatar: [{ required: true, message: "请上传头像", trigger: "blur" }],
 });
@@ -74,7 +86,7 @@ const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 const flag = computed<boolean>({
   set(value: Boolean) {
-   return emit("update:modelValue", value);
+    return emit("update:modelValue", value);
   },
   get() {
     return props.modelValue;

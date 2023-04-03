@@ -28,6 +28,7 @@ declare interface IUserInfo {
   password?: string
   password2?: string
   captcha?: string
+  gender?: number,
   introduction?: string
   avatar?: string
   file?: Blob | MediaSource | null

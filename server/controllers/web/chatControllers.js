@@ -33,6 +33,7 @@ chatControllers.post('/login', async (ctx, next) => {
       success: true,
       message: '登录成功',
       data: {
+        gender: result.gender,
         postbox: res?.postbox,
         userName: result.userName,
         introduction: result.introduction,

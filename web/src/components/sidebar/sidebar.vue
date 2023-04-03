@@ -11,7 +11,16 @@
             <el-avatar shape="square" style="margin-top:15px;margin-left:5px;" :size="50" :src="userInfo.avatar" />
           </el-col>
           <el-col :span="18">
-            <h3>{{userInfo.userName}}</h3>
+            <div class="box-nickname">
+              <h3>{{userInfo.userName}}</h3>
+              <el-icon v-show="userInfo.gender === 1">
+                <Female />
+              </el-icon>
+              <el-icon v-show="userInfo.gender === 2">
+                <Male />
+              </el-icon>
+            </div>
+
             <div>账号：{{userInfo.accountNumber}}</div>
             <div>简介：{{userInfo.introduction}}</div>
           </el-col>
@@ -55,10 +64,16 @@
 </template>
 
 <script setup lang="ts">
-import { Menu, SwitchButton, Setting } from "@element-plus/icons-vue";
+import {
+  Menu,
+  SwitchButton,
+  Setting,
+  Female,
+  Male,
+} from "@element-plus/icons-vue";
 import { onBeforeUnmount, onMounted, onUnmounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import editData from '@/components/sidebar/modules/editData/editData.vue'
+import editData from "@/components/sidebar/modules/editData/editData.vue";
 import settingDiadlog from "@/components/sidebar/modules/settingDiadlog/settingDiadlog.vue";
 import { useChatStore } from "@/store/chatStore";
 
@@ -161,6 +176,14 @@ onBeforeUnmount(() => {
   }
   &:hover {
     background-color: dimgray;
+  }
+}
+
+.box-nickname {
+  display: flex;
+  align-items: center;
+  h3 {
+    margin-right: 10px;
   }
 }
 </style>

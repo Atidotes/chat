@@ -7,7 +7,7 @@ const env = require('../../env.config')
 const setupControllers = new Router()
 let emailCaptcha = ''
 
-/** 绑定邮箱 */
+/** 发送验证码 */
 setupControllers.post('/postbox', async (ctx, next) => {
   const { postbox } = ctx.request.body
   /** 查找邮箱是否存在 */
@@ -45,6 +45,7 @@ setupControllers.post('/postbox', async (ctx, next) => {
   }
 })
 
+/** 绑定邮箱 */
 setupControllers.post('/captcha', async (ctx, next) => {
   const { postbox, captcha } = ctx.request.body
   /** 解密token */

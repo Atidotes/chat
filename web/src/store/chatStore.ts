@@ -18,6 +18,7 @@ export const useChatStore = defineStore('chat', {
         avatar: '',
         introduction: '',
         file: null,
+        gender: 0,
         audio: '',
       },
     }

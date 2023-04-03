@@ -23,9 +23,9 @@ const storageAudio = multer.diskStorage({
 const uploadAvatar = multer({ storage: storageAvatar })
 const uploadAudio = multer({ storage: storageAudio })
 
-/** 上传图片接口 */
+/** 编辑个人资料 */
 userControllers.post('/upload', uploadAvatar.single('file'), async (ctx, next) => {
-  const { userName, introduction } = ctx.req.body
+  const { userName, introduction, gender } = ctx.req.body
 
   const token = ctx.headers['authorization'].split(' ')[1]
   const analysis = JWT.verify(token)
@@ -36,6 +36,7 @@ userControllers.post('/upload', uploadAvatar.single('file'), async (ctx, next) =
     userName,
     avatar,
     introduction,
+    gender: Number(gender),
   })
 
   if (avatar) {
@@ -44,6 +45,7 @@ userControllers.post('/upload', uploadAvatar.single('file'), async (ctx, next) =
       message: '保存成功',
       success: true,
       data: {
+        gender: Number(gender),
         accountNumber: analysis.accountNumber,
         userName,
         avatar: `${config.APP_BASE}:${config.APP_PORT}${avatar}`,
@@ -56,6 +58,7 @@ userControllers.post('/upload', uploadAvatar.single('file'), async (ctx, next) =
       message: '保存成功',
       success: true,
       data: {
+        gender: Number(gender),
         accountNumber: analysis.accountNumber,
         userName,
         introduction,
@@ -87,7 +90,7 @@ userControllers.post('/audio', uploadAudio.single('file'), async (ctx, next) => 
         message: '上传成功',
         success: true,
         data: {
-          audio:`${config.APP_BASE}:${config.APP_PORT}${audio}`,
+          audio: `${config.APP_BASE}:${config.APP_PORT}${audio}`,
         }
       }
     } else {
