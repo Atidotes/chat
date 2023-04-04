@@ -11,7 +11,7 @@ const chatServices = {
     return userModel.findOne({ accountNumber })
   },
 
-  // /** 注册 */
+  /** 注册 */
   logon: ({ password, accountNumber, userName }) => {
     return userModel.create({ password, accountNumber, userName })
   }

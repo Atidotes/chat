@@ -112,5 +112,36 @@ userControllers.post('/audio', uploadAudio.single('file'), async (ctx, next) => 
   }
 })
 
+/** 修改密码 */
+userControllers.post('/changePassword', async (ctx, next) => {
+  const { password, newPassword } = ctx.request.body
+
+  const token = ctx.headers['authorization'].split(' ')[1]
+  const analysis = JWT.verify(token)
+
+  const result = await userServices.proving({
+    accountNumber: analysis.accountNumber,
+    password,
+  })
+
+  if (result) {
+    await userServices.updatePassword({
+      accountNumber: analysis.accountNumber,
+      password: newPassword,
+    })
+    ctx.body = {
+      code: 200,
+      success: true,
+      message: '修改密码成功'
+    }
+  } else {
+    ctx.body = {
+      code: 403,
+      success: false,
+      message: '旧密码不正确'
+    }
+  }
+})
+
 
 module.exports = userControllers

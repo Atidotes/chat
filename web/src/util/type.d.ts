@@ -1,13 +1,13 @@
 /** 返回数据类型 */
 declare interface IResult {
-  code: number,
-  message: string,
-  success: Boolean,
+  code: number
+  message: string
+  success: Boolean
   data?: object | Array | string
 }
 
 declare interface IChatStore {
-  flag: boolean,
+  flag: boolean
   userList: Array<IUserInfo>
   chatMassage: any
   currentChatUserInfo: IUserInfo
@@ -44,20 +44,26 @@ declare interface IObject {
 
 /** 当前聊天用户信息 */
 declare interface ISelectChat {
-  flag: boolean,
+  flag: boolean
   currentChatUserInfo: IUserInfo
 }
 
 /** 聊天记录 */
 declare interface IChangeInfo {
-  data: string,
-  type: string,
-  avatar: string | undefined,
+  data: string
+  type: string
+  avatar: string | undefined
 }
 
 /** 要向谁发送信息以及发送信息内容 */
 declare interface IChat {
-  data: string,
-  to: Object,
+  data: string
+  to: Object
   userChat: IUserInfo
+}
+
+declare interface IChangePassword {
+  password: string
+  newPassword: string
+  newPassword2?: string
 }

@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ChangePassword: typeof import('./src/components/sidebar/modules/changePassword/changePassword.vue')['default']
     Chat: typeof import('./src/components/chat/chat.vue')['default']
     EditData: typeof import('./src/components/sidebar/modules/editData/editData.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']

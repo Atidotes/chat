@@ -46,6 +46,14 @@
           </div>
         </div>
         <div @click="visible=!visible">
+          <div class="setting" @click="passwordVisible = true">
+            <el-icon>
+              <Key />
+            </el-icon>
+            <span>修改密码</span>
+          </div>
+        </div>
+        <div @click="visible=!visible">
           <div class="login-out" @click="handleLoginOut">
             <el-icon>
               <SwitchButton />
@@ -61,6 +69,8 @@
   <editData v-model="editDataFlag"></editData>
   <!-- 设置 -->
   <settingDiadlog v-model="settingVisible"></settingDiadlog>
+  <!-- 修改密码 -->
+  <changePassword v-model="passwordVisible"></changePassword>
 </template>
 
 <script setup lang="ts">
@@ -70,12 +80,14 @@ import {
   Setting,
   Female,
   Male,
+  Key,
 } from "@element-plus/icons-vue";
 import { onBeforeUnmount, onMounted, onUnmounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import editData from "@/components/sidebar/modules/editData/editData.vue";
 import settingDiadlog from "@/components/sidebar/modules/settingDiadlog/settingDiadlog.vue";
 import { useChatStore } from "@/store/chatStore";
+import changePassword from '@/components/sidebar/modules/changePassword/changePassword.vue'
 
 const router = useRouter();
 const store = useChatStore();
@@ -83,6 +95,7 @@ const store = useChatStore();
 const visible = ref(false);
 const avatarVisible = ref(false);
 const settingVisible = ref(false);
+const passwordVisible = ref(false)
 const trim = ref(0);
 const editDataFlag = ref(false);
 
