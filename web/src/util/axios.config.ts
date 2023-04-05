@@ -2,15 +2,15 @@ import axios from 'axios'
 
 const requests = axios.create({
   baseURL: '/web/api',
-  timeout: 5000,
+  timeout: 60 * 1000,
 })
 
 // 添加请求拦截器
 requests.interceptors.request.use((config) => {
-  
+
   const token = sessionStorage.getItem('token')
   config.headers.Authorization = `Bearer ${token}`
-  
+
   return config;
 }, (error) => {
   return Promise.reject(error);

@@ -44,7 +44,7 @@ watch(audioURL, () => audioRef.value.load());
 const socket = io(import.meta.env.APP_CHAT_BASE, {
   withCredentials: true,
   extraHeaders: {
-    token: localStorage.getItem("token") as string,
+    token: sessionStorage.getItem("token") as string,
   },
 });
 
@@ -58,6 +58,7 @@ socket.on("connect", () => {
         return item.accountNumber !== userInfo.accountNumber;
       }
     });
+    
     setUpUserList([...arr]);
   });
 

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="flag" title="编辑资料" width="30%" :close-on-click-modal="false">
+  <el-dialog v-model="flag" title="编辑资料" width="30%" :close-on-click-modal="false" >
     <el-form ref="editRef" :model="editData" :rules="editRules" status-icon label-position="right" :label-width="80">
       <!-- 昵称 -->
       <el-form-item label="昵称" prop="userName">

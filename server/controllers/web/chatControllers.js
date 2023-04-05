@@ -38,7 +38,7 @@ chatControllers.post('/login', async (ctx, next) => {
         userName: result.userName,
         introduction: result.introduction,
         accountNumber: result.accountNumber,
-        avatar: `${config.APP_BASE}:${config.APP_PORT}${result.avatar}`,
+        avatar: avatar,
         audio: `${config.APP_BASE}:${config.APP_PORT}${result.audio}`,
       }
     }
