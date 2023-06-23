@@ -10,6 +10,12 @@ require('./config/db.config')
 
 /** 实例化koa */
 const app = new koa()
+
+app.use(async (ctx, next) => {
+  ctx.set("Access-Control-Allow-Origin", "*")
+  await next()
+})
+
 app.use(bodyParser())
 chat(app)
 app.use(static(path.join(__dirname, "/assets")))

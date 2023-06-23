@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="flag" title="编辑资料" width="30%" :close-on-click-modal="false" >
+  <el-dialog v-model="flag" title="编辑资料" width="30%" :close-on-click-modal="false">
     <el-form ref="editRef" :model="editData" :rules="editRules" status-icon label-position="right" :label-width="80">
       <!-- 昵称 -->
       <el-form-item label="昵称" prop="userName">
@@ -43,6 +43,7 @@ import type { FormInstance, FormRules, UploadProps } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 import { upload } from "@/api/sidebar";
 import { useChatStore } from "@/store/chatStore";
+import compress from "@/util/compress";
 
 const store = useChatStore();
 const { setUpUserInfo } = store;
@@ -76,9 +77,9 @@ const editRules = reactive<FormRules>({
 /**
  * 上传头像
  */
-const changeUpload: UploadProps["onChange"] = (file) => {
+const changeUpload: UploadProps["onChange"] = async (file) => {
   editData.avatar = URL.createObjectURL(file.raw as Blob | MediaSource);
-  editData.file = file.raw;
+  editData.file = await compress(file.raw as Blob);
 };
 
 /** 封装v-model */

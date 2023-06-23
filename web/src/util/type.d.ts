@@ -31,7 +31,7 @@ declare interface IUserInfo {
   gender?: number,
   introduction?: string
   avatar?: string
-  file?: Blob | MediaSource | null
+  file?: Blob | MediaSource | null | string
   audio?: string
   audioURL?: string
 }
