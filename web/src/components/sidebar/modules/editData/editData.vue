@@ -39,7 +39,12 @@
 
 <script lang="ts" setup>
 import { computed, ref, reactive, watch, onMounted } from "vue";
-import type { FormInstance, FormRules, UploadProps } from "element-plus";
+import type {
+  FormInstance,
+  FormRules,
+  UploadProps,
+  UploadRawFile,
+} from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 import { upload } from "@/api/sidebar";
 import { useChatStore } from "@/store/chatStore";
@@ -79,7 +84,7 @@ const editRules = reactive<FormRules>({
  */
 const changeUpload: UploadProps["onChange"] = async (file) => {
   editData.avatar = URL.createObjectURL(file.raw as Blob | MediaSource);
-  editData.file = await compress(file.raw as Blob);
+  editData.file = await compress({ file: file.raw as UploadRawFile});
 };
 
 /** 封装v-model */
