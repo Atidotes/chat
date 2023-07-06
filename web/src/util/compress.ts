@@ -2,11 +2,11 @@
 
 /** 自定义File */
 interface IFile extends File {
-  uid: number;
+  uid: number | Date;
 }
 
 interface IFiles extends File {
-  uid?: number;
+  uid?: number | Date;
 }
 
 /** 定义参数 */
@@ -19,10 +19,6 @@ interface IParameter {
 
 /** 定义属性以及方法 */
 interface ICompress {
-  img: HTMLImageElement
-  fr: FileReader
-  name: string
-  suffix: string | undefined
   createObjectFile: (fileData: Blob | string, filename: string, config: object) => Promise<IFiles>
   createObjectBlob: (fileData: Blob | string, config: object) => Promise<Blob>
   createObjectURL: (file: Blob | MediaSource) => Promise<string>
@@ -39,6 +35,7 @@ class Compress implements ICompress {
   fr: FileReader;
   name: string;
   suffix: string | undefined;
+  static instance: null | Blob | string = null
   constructor(private params: IParameter) {
     this.params = Object.assign({
       scale: 0.8,
@@ -55,7 +52,11 @@ class Compress implements ICompress {
   async createObjectFile(fileData: Blob | string, filename: string, config: object = { type: this.params.imageType, lastModified: this.params.file.lastModified }) {
     let { file } = this.params
     let files: IFiles = new File([fileData], `${filename}.${this.suffix}`, config)
-    files.uid = file.uid
+    if (file.hasOwnProperty('uid')) {
+      files.uid = file.uid
+    } else {
+      files.uid = Date.now()
+    }
     return files
   }
 
@@ -151,7 +152,10 @@ class Compress implements ICompress {
    * @returns 图片压缩后的数据
    */
   static async exportData(params: IParameter): Promise<Blob | string> {
-    return await new Compress(params).transformBase64()
+    if (!Compress.instance) {
+      Compress.instance = await new Compress(params).transformBase64()
+    }
+    return Compress.instance
   }
 };
 
@@ -159,6 +163,8 @@ class Compress implements ICompress {
  * 导出图片压缩后数据
  */
 const compress = async (params: IParameter) => {
-  return await Compress.exportData(params)
+  let result = await Compress.exportData(params)
+  console.log(result);
+  return result
 }
 export default compress
