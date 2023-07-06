@@ -6,12 +6,12 @@
       <el-form class="login-from" ref="loginRef" :model="loginData" :rules="loginRules" status-icon>
         <!-- 账号 -->
         <el-form-item label="账号" prop="accountNumber">
-          <el-input v-model="loginData.accountNumber" placeholder="请填写手机号"></el-input>
+          <el-input v-enter-next v-model="loginData.accountNumber" placeholder="请填写手机号"></el-input>
         </el-form-item>
 
         <!-- 密码 -->
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="loginData.password" show-password placeholder="请填写密码"></el-input>
+          <el-input type="password" v-model="loginData.password" show-password placeholder="请填写密码" @keydown.enter="handleLogin(loginRef)"></el-input>
         </el-form-item>
 
         <!-- 登录 -->
@@ -26,32 +26,32 @@
     <div v-else class="logon">
       <h1 class="title">注册</h1>
       <el-form class="logon-from" ref="logonRef" :model="logonData" :rules="logonRules" status-icon
-        label-position="right" :label-width="80">
+        label-position="right" :label-width="80" hide-required-asterisk>
         <!-- 账号 -->
         <el-form-item label="账号" prop="accountNumber">
-          <el-input v-model="logonData.accountNumber" placeholder="请填写手机号"></el-input>
+          <el-input v-enter-next v-model="logonData.accountNumber" placeholder="请填写手机号"></el-input>
         </el-form-item>
 
         <!-- 昵称 -->
         <el-form-item label="昵称" prop="userName">
-          <el-input v-model="logonData.userName" placeholder="请填写昵称"></el-input>
+          <el-input v-enter-next v-model="logonData.userName" placeholder="请填写昵称"></el-input>
         </el-form-item>
 
         <!-- 密码 -->
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="logonData.password" show-password placeholder="请填写密码"></el-input>
+          <el-input v-enter-next type="password" v-model="logonData.password" show-password placeholder="请填写密码"></el-input>
         </el-form-item>
 
         <!-- 确认密码 -->
         <el-form-item label="确认密码" prop="password2">
-          <el-input type="password" v-model="logonData.password2" show-password placeholder="请填写确认密码"></el-input>
+          <el-input v-enter-next type="password" v-model="logonData.password2" show-password placeholder="请填写确认密码"></el-input>
         </el-form-item>
 
         <el-row :gutter="10">
           <el-col :span="16">
             <!-- 验证码 -->
             <el-form-item label="验证码" prop="captcha">
-              <el-input v-model="logonData.captcha" placeholder="请填写验证码"></el-input>
+              <el-input @keydown.enter="handleLogon(logonRef)" v-model="logonData.captcha" placeholder="请填写验证码"></el-input>
             </el-form-item>
           </el-col>
 

@@ -6,6 +6,7 @@ import { AES_Encrypt, AES_Decrypt } from '@/util/encryption'
 import { ElMessage, ElMessageBox } from "element-plus"
 import 'element-plus/es/components/message/style/css';
 import 'element-plus/es/components/message-box/style/css';
+import {enterNext} from '@/util/enterNext'
 
 const app = createApp(App)
 
@@ -20,3 +21,5 @@ app.config.globalProperties.$messageBox = ElMessageBox
 app.use(router)
 app.use(pinia)
 app.mount('#app')
+
+enterNext(app)
