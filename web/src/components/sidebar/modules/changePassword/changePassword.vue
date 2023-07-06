@@ -87,11 +87,11 @@ const handleAffirm = (formRef: FormInstance | undefined) => {
       const result = await password(params);
 
       if (result.code === 200 && result.success) {
-        ElMessage.success(result.message);
+        proxy.$message.success(result.message);
         flag.value = false;
         formRef.resetFields();
       } else {
-        ElMessage.error(result.message);
+        proxy.$message.error(result.message);
       }
     }
   });

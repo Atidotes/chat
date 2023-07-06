@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, watch, onMounted } from "vue";
+import { computed, ref, reactive, watch, onMounted,getCurrentInstance } from "vue";
 import type {
   FormInstance,
   FormRules,
@@ -50,6 +50,7 @@ import { upload } from "@/api/sidebar";
 import { useChatStore } from "@/store/chatStore";
 import compress from "@/util/compress";
 
+const { proxy } = getCurrentInstance() as any;
 const store = useChatStore();
 const { setUpUserInfo } = store;
 
@@ -118,14 +119,14 @@ const handleSave = (editRef: FormInstance | undefined) => {
         // 更新状态库
         setUpUserInfo(result.data);
         flag.value = false;
-        ElMessage({
+        proxy.$message({
           type: "success",
           message: result.message,
         });
         editLoading.value = false;
       } else {
         editLoading.value = false;
-        ElMessage({
+        proxy.$message({
           type: "error",
           message: result.message,
         });

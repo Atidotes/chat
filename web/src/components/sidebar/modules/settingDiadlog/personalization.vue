@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { reactive, ref,getCurrentInstance } from "vue";
 import type {
   FormInstance,
   FormRules,
@@ -47,6 +47,8 @@ import { networkReg } from "@/util/regular";
 
 const store = useChatStore();
 const { setUpUserInfo } = store;
+
+const { proxy } = getCurrentInstance() as any;
 
 const activeName = ref("first");
 const LocalUploadLoading = ref(false);
@@ -86,7 +88,7 @@ const judgmentDuration = (
 /** 文件上传前变化 */
 const handleChange: UploadProps["onChange"] = async (file) => {
   let result: Boolean = await judgmentDuration(file.raw, 5, true);
-  if (!result) return ElMessage.error("音频时长不能大于5秒");
+  if (!result) return proxy.$message.error("音频时长不能大于5秒");
   localUpload.audio = URL.createObjectURL(file.raw as Blob | MediaSource);
   localUpload.file = file.raw;
 };
@@ -100,7 +102,7 @@ const handleNetworkUpload = async () => {
     let res = await judgmentDuration(networkUpload.audioURL, 5, false);
     if (!res) {
       networkUploadLoading.value = false;
-      return ElMessage.error("音频时长不能大于5秒");
+      return proxy.$message.error("音频时长不能大于5秒");
     }
     const params: FormData = new FormData();
     for (let item in networkUpload) {
@@ -112,15 +114,15 @@ const handleNetworkUpload = async () => {
     let result = await uploadAudio(params);
     if (result.code === 200 && result.success) {
       setUpUserInfo(result.data);
-      ElMessage.success(result.message);
+      proxy.$message.success(result.message);
       networkUploadLoading.value = false;
     } else {
       networkUploadLoading.value = false;
-      ElMessage.error(result.message);
+      proxy.$message.error(result.message);
     }
   } else {
     networkUploadLoading.value = false;
-    ElMessage.error("请输入正确的网络地址");
+    proxy.$message.error("请输入正确的网络地址");
   }
 };
 
@@ -135,10 +137,10 @@ const handleLocalUpload = async () => {
   if (result.code === 200 && result.success) {
     setUpUserInfo(result.data);
     LocalUploadLoading.value = false;
-    ElMessage.success(result.message);
+    proxy.$message.success(result.message);
   } else {
     LocalUploadLoading.value = false;
-    ElMessage.error(result.message);
+    proxy.$message.error(result.message);
   }
 };
 </script>

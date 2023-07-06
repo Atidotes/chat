@@ -3,11 +3,19 @@ import App from './App.vue'
 import router from './router'
 import pinia from '@/store/index'
 import { AES_Encrypt, AES_Decrypt } from '@/util/encryption'
+import { ElMessage, ElMessageBox } from "element-plus"
+import 'element-plus/es/components/message/style/css';
+import 'element-plus/es/components/message-box/style/css';
 
 const app = createApp(App)
 
-app.config.globalProperties.$AES_Encrypt = AES_Encrypt //全局加密
-app.config.globalProperties.$AES_Decrypt = AES_Decrypt //全局解密
+// 加密解密
+app.config.globalProperties.$AES_Encrypt = AES_Encrypt
+app.config.globalProperties.$AES_Decrypt = AES_Decrypt
+
+// 挂载全局UI库
+app.config.globalProperties.$message = ElMessage
+app.config.globalProperties.$messageBox = ElMessageBox
 
 app.use(router)
 app.use(pinia)

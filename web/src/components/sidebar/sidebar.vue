@@ -82,7 +82,7 @@ import {
   Male,
   Key,
 } from "@element-plus/icons-vue";
-import { onBeforeUnmount, onMounted, onUnmounted, ref, computed } from "vue";
+import { onBeforeUnmount, onMounted, onUnmounted, ref, computed,getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import editData from "@/components/sidebar/modules/editData/editData.vue";
 import settingDiadlog from "@/components/sidebar/modules/settingDiadlog/settingDiadlog.vue";
@@ -91,6 +91,8 @@ import changePassword from '@/components/sidebar/modules/changePassword/changePa
 
 const router = useRouter();
 const store = useChatStore();
+
+const { proxy } = getCurrentInstance() as any;
 
 const visible = ref(false);
 const avatarVisible = ref(false);
@@ -126,7 +128,7 @@ const handleAvatar = (e: any) => {
  * 退出登录
  */
 const handleLoginOut = () => {
-  ElMessageBox.confirm("确认要退出登录吗？", {
+  proxy.$messageBox.confirm("确认要退出登录吗？", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning",

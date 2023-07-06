@@ -210,10 +210,14 @@ const handleLogin = (formRef: FormInstance | undefined) => {
         setting.$patch({ inputPostbox: result.data.postbox });
         router.push("/");
         formRef.resetFields();
+        proxy.$message({
+          type: "success",
+          message: result.message,
+        });
         loginLoading.value = false;
       } else {
         loginLoading.value = false;
-        ElMessage({
+        proxy.$message({
           type: "error",
           message: result.message,
         });
@@ -241,7 +245,7 @@ const handleLogon = (formRef: FormInstance | undefined) => {
       let result = await toLogon(params);
       if (result.code === 200 && result.success) {
         flag.value = true;
-        ElMessage({
+        proxy.$message({
           type: "success",
           message: result.message,
         });
@@ -251,7 +255,7 @@ const handleLogon = (formRef: FormInstance | undefined) => {
       } else {
         logonLoading.value = false;
         handleCaptcha();
-        ElMessage({
+        proxy.$message({
           type: "error",
           message: result.message,
         });

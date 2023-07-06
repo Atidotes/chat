@@ -27,14 +27,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
-import { ElMessage, FormInstance, FormRules } from "element-plus";
+import { computed, ref, watch,getCurrentInstance } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
 import { mailbox } from "@/util/regular";
 import { bindMailbox, mailboxCaptcha } from "@/api/setup";
 import { useSetting } from "@/store/settingStore";
 
 const store = useSetting();
 const { savePostbox } = store;
+
+const { proxy } = getCurrentInstance() as any;
 
 const safeRef = ref<FormInstance>();
 const postboxFlag = ref(true);
@@ -83,13 +85,13 @@ const handlePostbox = async (params: string) => {
       postbox: params,
     });
     if (result.code === 200 && result.success) {
-      ElMessage.success(result.message);
+      proxy.$message.success(result.message);
       inputFlag.value = true;
     } else {
-      ElMessage.error(result.message);
+      proxy.$message.error(result.message);
     }
   } else {
-    ElMessage.error("请输入QQ邮箱");
+    proxy.$message.error("请输入QQ邮箱");
   }
 };
 
@@ -102,12 +104,12 @@ const handleCaptcha = async () => {
 
   if (result.code === 200 && result.success) {
     savePostbox(result.data.postbox);
-    ElMessage.success(result.message);
+    proxy.$message.success(result.message);
     postboxFlag.value = true;
     captcha.value = "";
     isPostbox.value = true;
   } else {
-    ElMessage.error(result.message);
+    proxy.$message.error(result.message);
   }
 };
 </script>
