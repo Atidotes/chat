@@ -18,6 +18,7 @@
     "pinia": "^2.0.33",
     "pinia-plugin-persistedstate": "^3.1.0",
     "socket.io-client": "^4.6.1",
+    "terser": "^5.18.2",
     "unplugin-auto-import": "^0.15.1",
     "unplugin-vue-components": "^0.24.1",
     "vue": "^3.2.45",

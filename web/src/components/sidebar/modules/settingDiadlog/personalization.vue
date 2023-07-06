@@ -153,7 +153,7 @@ const handleLocalUpload = async () => {
   line-height: 15px;
 }
 
-:deep(..el-upload-list) {
+:deep(.el-upload-list) {
   margin: 0;
 }
 

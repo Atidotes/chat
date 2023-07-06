@@ -8,11 +8,21 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
 
-  const env = loadEnv(mode, process.cwd(),'APP_')
+  const env = loadEnv(mode, process.cwd(), 'APP_')
 
   return {
     define: {
       __APP_ENV__: env.APP_ENV,
+    },
+    build: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          //生产环境时移除console
+          drop_console: true,
+          drop_debugger: true,
+        }
+      },
     },
     plugins: [
       vue(),
