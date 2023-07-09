@@ -102,7 +102,7 @@ export const useChatStore = defineStore('chat', {
       if (audio && !audio.includes("undefined")) {
         return state.userInfo.audio as string;
       } else {
-        state.userInfo.audio = new URL('@/assets/01.mp3', import.meta.url).href
+        state.userInfo.audio = new URL('@/assets/medium/01.mp3', import.meta.url).href
         return state.userInfo.audio;
       }
     }

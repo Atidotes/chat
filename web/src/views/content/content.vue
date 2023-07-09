@@ -15,7 +15,6 @@
 
   <!-- 音效 -->
   <audio ref="audioRef" hidden>
-    <!-- <source src="@/assets/01.mp3" type="audio/mpeg"> -->
     <source :src="audioURL" type="audio/mpeg">
   </audio>
 </template>
@@ -58,7 +57,7 @@ socket.on("connect", () => {
         return item.accountNumber !== userInfo.accountNumber;
       }
     });
-    
+
     setUpUserList([...arr]);
   });
 
@@ -95,6 +94,9 @@ onBeforeUnmount(() => {
   justify-content: center;
   align-items: center;
   background-color: #393939;
+  background-image: url("@/assets/image/background.png");
+  background-position: center;
+  background-repeat: no-repeat;
   box-sizing: border-box;
   .content {
     width: 850px;

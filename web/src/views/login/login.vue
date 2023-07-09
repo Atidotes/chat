@@ -11,7 +11,8 @@
 
         <!-- 密码 -->
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="loginData.password" show-password placeholder="请填写密码" @keydown.enter="handleLogin(loginRef)"></el-input>
+          <el-input type="password" v-model="loginData.password" show-password placeholder="请填写密码"
+            @keydown.enter="handleLogin(loginRef)"></el-input>
         </el-form-item>
 
         <!-- 登录 -->
@@ -39,19 +40,22 @@
 
         <!-- 密码 -->
         <el-form-item label="密码" prop="password">
-          <el-input v-enter-next type="password" v-model="logonData.password" show-password placeholder="请填写密码"></el-input>
+          <el-input v-enter-next type="password" v-model="logonData.password" show-password
+            placeholder="请填写密码"></el-input>
         </el-form-item>
 
         <!-- 确认密码 -->
         <el-form-item label="确认密码" prop="password2">
-          <el-input v-enter-next type="password" v-model="logonData.password2" show-password placeholder="请填写确认密码"></el-input>
+          <el-input v-enter-next type="password" v-model="logonData.password2" show-password
+            placeholder="请填写确认密码"></el-input>
         </el-form-item>
 
         <el-row :gutter="10">
           <el-col :span="16">
             <!-- 验证码 -->
             <el-form-item label="验证码" prop="captcha">
-              <el-input @keydown.enter="handleLogon(logonRef)" v-model="logonData.captcha" placeholder="请填写验证码"></el-input>
+              <el-input @keydown.enter="handleLogon(logonRef)" v-model="logonData.captcha"
+                placeholder="请填写验证码"></el-input>
             </el-form-item>
           </el-col>
 
@@ -270,18 +274,23 @@ const handleLogon = (formRef: FormInstance | undefined) => {
   width: 100%;
   height: 100vh;
   background-color: #353535;
+  background-image: url("@/assets/image/background.png");
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
   .login {
     width: 420px;
     height: 260px;
-    background-color: #778899;
+    background-color: #77889980;
+    opacity: 0.9;
     border-radius: 10px;
     box-sizing: border-box;
     color: #fff;
     padding: 0px 20px 10px 20px;
     position: relative;
+    box-shadow: #353535 30px 40px 40px, inset #ccc 10px 10px 30px;
     .to-logon {
       position: absolute;
       right: 20px;
@@ -313,12 +322,14 @@ const handleLogon = (formRef: FormInstance | undefined) => {
   .logon {
     width: 420px;
     height: 410px;
-    background-color: #778899;
+    background-color: #77889980;
+    opacity: 0.9;
     border-radius: 10px;
     box-sizing: border-box;
     color: #fff;
     padding: 0px 20px 10px 20px;
     position: relative;
+    box-shadow: #353535 30px 40px 40px, inset #ccc 10px 10px 30px;
     .to-login {
       position: absolute;
       right: 20px;

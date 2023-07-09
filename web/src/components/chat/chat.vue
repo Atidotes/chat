@@ -216,6 +216,7 @@ const handleSend = () => {
       padding: 10px;
       font-size: 18px;
       box-sizing: border-box;
+      background-color: transparent;
     }
   }
 }
