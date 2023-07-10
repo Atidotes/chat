@@ -5,7 +5,7 @@
       <el-tabs v-model="activeName">
         <!-- 上传本地铃声 -->
         <el-tab-pane label="使用本地铃声" name="first">
-          <el-upload ref="upload" :on-change="handleChange" action="" :limit="1" :auto-upload="false">
+          <el-upload ref="upload" :on-change="handleChange" action="" :limit="1" :auto-upload="false" :on-exceed="handleExceed">
             <template #trigger>
               <el-button type="primary">选择文件</el-button>
             </template>
@@ -41,6 +41,7 @@ import type {
   UploadProps,
   UploadRawFile,
 } from "element-plus";
+import { genFileId } from 'element-plus'
 import { uploadAudio } from "@/api/sidebar";
 import { useChatStore } from "@/store/chatStore";
 import { networkReg } from "@/util/regular";
@@ -92,6 +93,14 @@ const handleChange: UploadProps["onChange"] = async (file) => {
   localUpload.audio = URL.createObjectURL(file.raw as Blob | MediaSource);
   localUpload.file = file.raw;
 };
+
+// 上传之前覆盖之前的文件
+const handleExceed: UploadProps['onExceed'] = (files) => {
+  upload.value!.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  upload.value!.handleStart(file)
+}
 
 /** 上传网络地址 */
 const handleNetworkUpload = async () => {

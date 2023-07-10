@@ -55,7 +55,8 @@ class Compress implements ICompress {
     if (file.hasOwnProperty('uid')) {
       files.uid = file.uid
     } else {
-      files.uid = Date.now()
+      let fileId = 1
+      files.uid = Date.now() + fileId++
     }
     return files
   }

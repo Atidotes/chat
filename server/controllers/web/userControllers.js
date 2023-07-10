@@ -3,7 +3,7 @@ const userServices = require('../../services/web/userServices')
 const multer = require('koa-multer');
 const path = require('path')
 const config = require('../../env.config')
-const JWT = require('../../util/JWT')
+const JWT = require('../../util/JWT');
 
 const userControllers = new Router()
 
@@ -12,12 +12,20 @@ const storageAvatar = multer.diskStorage({
   destination: (req, file, cb) => {
     return cb(null, path.join(__dirname, '../../assets/avatar'))
   },
+  filename: (req, file, cb) => {
+    let fileFormat = (file.originalname).split(".");
+    return cb(null, `${Date.now()}-${fileFormat[0]}.${fileFormat[fileFormat.length - 1]}`);
+  },
 })
 
 /** 上传音频配置 */
 const storageAudio = multer.diskStorage({
   destination: (req, file, cb) => {
     return cb(null, path.join(__dirname, '../../assets/audio'))
+  },
+  filename: (req, file, cb) => {
+    let fileFormat = (file.originalname).split(".");
+    return cb(null, `${Date.now()}-${fileFormat[0]}.${fileFormat[fileFormat.length - 1]}`);
   },
 })
 const uploadAvatar = multer({ storage: storageAvatar })
