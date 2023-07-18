@@ -50,8 +50,7 @@ declare interface ISelectChat {
 
 /** 聊天记录 */
 declare interface IChangeInfo {
-  data: string
-  type: string
+  [key: string]: string
   avatar: string | undefined
 }
 
@@ -63,7 +62,6 @@ declare interface IChat {
 }
 
 declare interface IChangePassword {
-  password: string
-  newPassword: string
+  [key: string]: string
   newPassword2?: string
 }
